@@ -1,5 +1,5 @@
 <template>
-  <el-header style="background-color: #333; color: white; line-height: 60px;">
+  <el-header style="background-color: #333; color: white; line-height: 60px; height: 100px;">
     Welcome to the Smart Coder
   </el-header>
 </template>

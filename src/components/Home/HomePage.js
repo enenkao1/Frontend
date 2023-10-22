@@ -1,11 +1,9 @@
+import AppHeader from '@/components/Header.vue';
+import AppNavbar from '@/components/Home/Navbar.vue';
+
 export default {
-    name: 'HomePage',
-    data() {
-        return {
-            // 在这里定义你的数据
-        };
+    components: {
+        AppHeader,
+        AppNavbar,
     },
-    methods: {
-        // 在这里定义你的方法
-    }
-}
+};
