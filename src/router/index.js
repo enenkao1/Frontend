@@ -7,6 +7,8 @@ import CodeComment from "@/components/Home/CodeComment.vue";
 import CodeCorrection from "@/components/Home/CodeCorrection.vue";
 import LoginView from '../views/LoginView.vue';
 import RegView from '../views/RegView.vue';
+import ForumView from "@/views/ForumView";
+import taskView from "@/views/taskView";
 Vue.use(VueRouter)
 
 const routes = [
@@ -52,6 +54,16 @@ const routes = [
     path: '/reg',
     name: 'reg',
     component: RegView
+  },
+  {
+    path: '/forum',
+    name: 'forum',
+    component: ForumView
+  },
+  {
+    path: '/task',
+    name: 'task',
+    component: taskView
   },
 ]
 
