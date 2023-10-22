@@ -5,8 +5,8 @@ import HomePage from '@/components/Home/HomePage.vue'
 import CodeGeneration from "@/components/Home/CodeGeneration.vue";
 import CodeComment from "@/components/Home/CodeComment.vue";
 import CodeCorrection from "@/components/Home/CodeCorrection.vue";
-import Login from '../views/LoginView.vue';
-
+import LoginView from '../views/LoginView.vue';
+import RegView from '../views/RegView.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -46,7 +46,12 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: LoginView
+  },
+  {
+    path: '/reg',
+    name: 'reg',
+    component: RegView
   },
 ]
 

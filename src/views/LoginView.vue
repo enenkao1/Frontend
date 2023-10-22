@@ -14,8 +14,8 @@
         <el-form-item style="width:500px;margin-bottom: 40px">
           <el-button type="primary" round style="width: 100%">Login</el-button>
         </el-form-item>
-        <div style="text-align: left;margin-left: 120px;margin-bottom: 10px">Create an account, click <span style="color: blue; cursor:pointer">here</span></div>
-        <div style="text-align: left;margin-left: 120px">Forget your password, click <span style="color: blue; cursor:pointer">here</span></div>
+        <div style="text-align: left;margin-left: 120px;margin-bottom: 10px;">Create an account, click <span style="color: blue; cursor:pointer;border-bottom: 1px solid blue;" @click="goReg()">here</span></div>
+        <div style="text-align: left;margin-left: 120px">Forget your password, click <span style="color: blue; cursor:pointer;border-bottom: 1px solid blue;">here</span></div>
       </el-form>
 
     </div>
@@ -35,6 +35,11 @@ export default {
         password: ''
       }
     };
+  },
+  methods:{
+    goReg(){
+      this.$router.push("/reg");
+    }
   }
 }
 </script>
