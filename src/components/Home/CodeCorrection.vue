@@ -1,8 +1,17 @@
 <template>
-  <div>
+  <div style="height: 100vh; width: 100vw;">
     <app-header></app-header>
-    <app-navbar></app-navbar>
-    <!-- 页面其他内容 -->
+    <el-container style="height: calc(100% - 60px); background-color: #333">
+      <app-navbar></app-navbar>
+      <el-main>
+        <el-input
+            type="textarea"
+            :rows="2"
+            placeholder="Please input"
+            v-model="textarea">
+        </el-input>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
@@ -15,13 +24,21 @@ export default {
     AppHeader,
     AppNavbar,
   },
+  data() {
+    return {
+      textarea: ''
+    }
+  }
 };
 </script>
 
-
 <style scoped>
-.home {
-  text-align: center;
-  margin-top: 50px;
+.content {
+  margin-bottom: 200px;
+  padding: 200px;
+}
+
+.board {
+  padding: 200px;
 }
 </style>
