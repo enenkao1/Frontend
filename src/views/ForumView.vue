@@ -5,7 +5,7 @@
   <el-button type="primary" round="true" style="margin-top: 70px;margin-bottom:30px;float: left">Post</el-button>
   <div>
     <el-table
-        :data="tableData"
+        :data="tableData" @row-click="goTask"
         stripe
         style="width: 100%;">
       <el-table-column
@@ -16,7 +16,9 @@
       <el-table-column
           prop="name"
           label=" "
-          width="700">
+          width="700"
+
+        >
       </el-table-column>
       <el-table-column
           prop="author"
@@ -55,6 +57,11 @@ export default {
         author: 'Admin',
         reply:'user'
       }]
+    }
+  },
+  methods:{
+    goTask(){
+      this.$router.push("/task");
     }
   }
 }
