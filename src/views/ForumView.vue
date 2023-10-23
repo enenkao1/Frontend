@@ -2,7 +2,7 @@
 <div>
   <img src="@/assets/logo.png" alt="" style = "width: 60%;margin-top: 50px">
   <h1 style="text-align: center;margin-top: 50px">Welcome to smart coder community</h1>
-  <el-button type="primary" round="true" style="margin-top: 70px;margin-bottom:30px;float: left">Post</el-button>
+  <el-button type="primary" round="true" class="postButton" @click="addPost()">Post</el-button>
   <div>
     <el-table
         :data="tableData" @row-click="goTask"
@@ -62,11 +62,23 @@ export default {
   methods:{
     goTask(){
       this.$router.push("/post");
+    },
+    addPost(){
+      this.tableData.push({
+        date: '2023-10-23',
+        name: 'Welcome to here',
+        author: 'Admin',
+        reply:'user'
+      })
     }
   }
 }
 </script>
 
 <style scoped>
-
+.postButton{
+  margin-top: 70px;
+  margin-bottom:30px;
+  float: left;
+}
 </style>
