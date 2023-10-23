@@ -1,7 +1,7 @@
 <template>
   <el-header class="header" height = 100px;>
     <img src="@/assets/logo.png" alt="Logo" class="logo">
-    <span>Welcome to the Smart Coder</span>
+    <span>Welcome to the Smarter Coder</span>
     <div class="user-info">
       <span class="username">{{ username }}</span>
       <el-dropdown trigger="click">

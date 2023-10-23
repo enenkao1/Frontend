@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import HomePage from '@/components/Home/HomePage.vue'
-import CodeGeneration from "@/components/Home/CodeGeneration.vue";
-import CodeComment from "@/components/Home/CodeComment.vue";
-import CodeCorrection from "@/components/Home/CodeCorrection.vue";
+import CodeGeneration from "@/components/mainFunctions/CodeGeneration.vue";
+import CodeComment from "@/components/mainFunctions/CodeComment.vue";
+import CodeCorrection from "@/components/mainFunctions/CodeCorrection.vue";
 import LoginView from '../views/LoginView.vue';
 import RegView from '../views/RegView.vue';
 import ForumView from "@/views/ForumView";
@@ -24,11 +23,6 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
-  {
-    path: '/homepage',
-    name: 'homepage',
-    component: HomePage
   },
   {
     path: '/codeGeneration',

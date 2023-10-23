@@ -1,10 +1,10 @@
 <template>
-  <el-aside class="navbar" width="300px" style="background-color: #333; height: 100vh;">
-    <el-menu default-active="1" class="el-menu-vertical-demo" text-color="#303133" router>
+  <el-aside class="navbar" width="300px" style="background-color: #333; height: 100%;">
+    <el-menu :default-active="$route.path" class="el-menu-vertical-demo" text-color="#303133" router>
       <el-menu-item index="/codeGeneration">
         <i class="el-icon-s-opportunity"></i>
         Code Generation
-      </el-menu-item>e
+      </el-menu-item>
       <el-menu-item index="/codeComment">
         <i class="el-icon-tickets"></i>
         Code Comment
@@ -31,7 +31,7 @@ export default {
 .el-menu-item.is-active, .el-menu-item:not(.is-disabled):hover {
   padding: 0 !important;
   width: 300px !important;
-  background-color: palegoldenrod !important;
+  background-color: white !important;
 }
 .el-menu-vertical-demo{
   padding: 0 !important;
