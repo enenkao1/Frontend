@@ -61,7 +61,7 @@ export default {
   },
   methods:{
     goTask(){
-      this.$router.push("/task");
+      this.$router.push("/post");
     }
   }
 }

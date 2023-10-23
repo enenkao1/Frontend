@@ -43,7 +43,7 @@
 
 <script>
 export default {
-  name: "taskView",
+  name: "postView",
   methods:{
     goBack(){
       this.$router.push("/forum");

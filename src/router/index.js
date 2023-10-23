@@ -7,7 +7,7 @@ import CodeCorrection from "@/components/mainFunctions/CodeCorrection.vue";
 import LoginView from '../views/LoginView.vue';
 import RegView from '../views/RegView.vue';
 import ForumView from "@/views/ForumView";
-import taskView from "@/views/taskView";
+import postView from "@/views/postView";
 Vue.use(VueRouter)
 
 const routes = [
@@ -55,9 +55,9 @@ const routes = [
     component: ForumView
   },
   {
-    path: '/task',
-    name: 'task',
-    component: taskView
+    path: '/post',
+    name: 'post',
+    component: postView
   },
 ]
 
