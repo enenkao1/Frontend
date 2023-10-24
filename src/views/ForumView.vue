@@ -16,7 +16,7 @@
         :cell-style="{padding:'13px'}"
         stripe
         @row-click="goTask"
-        style="width: 100%;">
+        class="table">
       <el-table-column
           prop="date"
           label="Date"
@@ -25,9 +25,13 @@
       <el-table-column
           prop="name"
           label=" "
-          width="700"
-
+          width="500"
         >
+      </el-table-column>
+      <el-table-column
+          prop="status"
+          label="Status"
+          width="200">
       </el-table-column>
       <el-table-column
           prop="author"
@@ -66,16 +70,19 @@ export default {
       tableData: [{
         date: '2023-10-23',
         name: 'Welcome to here',
+        status: 'Unsolved',
         author: 'Admin',
         reply:'user'
       }, {
         date: '2023-10-23',
         name: 'Welcome to here',
+        status: 'Unsolved',
         author: 'Admin',
         reply:'user'
       }, {
         date: '2023-10-23',
         name: 'Welcome to here',
+        status: 'Unsolved',
         author: 'Admin',
         reply:'user'
       }]
@@ -98,6 +105,7 @@ export default {
       this.tableData.push({
         date: '2023-10-23',
         name: postName,
+        status: 'Solved',
         author: 'Admin',
         reply:'user'
       })
@@ -139,5 +147,9 @@ export default {
   margin: auto;
   display: flex;
   justify-content: center;
+}
+.table{
+  width: 100%;
+  text-align: center;
 }
 </style>

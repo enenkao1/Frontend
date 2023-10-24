@@ -1,5 +1,5 @@
 <template >
-<div style="min-height: 120vh;height:auto;background-color: gray;overflow: auto">
+<div class="mainBox">
   <div>
     <el-container class="UpContainer">
       <img src="@/assets/logo.png" alt="" style = "width:1000px">
@@ -107,6 +107,12 @@ export default {
 </script>
 
 <style scoped>
+.mainBox{
+  min-height: 100vh;
+  height:auto;
+  background-color: gray;
+  overflow: auto;
+}
 .UpContainer {
   margin: auto;
   height: 20vh;
@@ -117,7 +123,7 @@ export default {
 .insideBox{
   width: 90%;
   margin: auto;
-  height: 100vh;
+  height: 80vh;
   background-color: white;
   display: flex;
   flex-direction: column;

@@ -1,4 +1,4 @@
-<!--这只是个对gpt给的代码的测试页面-->
+<!--这只是个对gpt给的代码的测试页面，你也可以在这里测试代码-->
 <template>
   <div>
     <!-- Loop through posts and create an el-aside for each post -->
