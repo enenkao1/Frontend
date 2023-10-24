@@ -118,7 +118,8 @@ export default {
 .insideBox{
   width: 90%;
   margin: auto;
-  height: 60vh;
+  min-height: 60vh;
+  height: auto;
   background-color: white;
   border: 1px solid black;
 }

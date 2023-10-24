@@ -8,6 +8,7 @@ import LoginView from '../views/LoginView.vue';
 import RegView from '../views/RegView.vue';
 import ForumView from "@/views/ForumView";
 import postView from "@/views/postView";
+import TempView from "@/views/TempView";
 Vue.use(VueRouter)
 
 const routes = [
@@ -58,6 +59,11 @@ const routes = [
     path: '/post',
     name: 'post',
     component: postView
+  },
+  {
+    path: '/temp',
+    name: 'temp',
+    component: TempView
   },
 ]
 

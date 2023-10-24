@@ -1,38 +1,40 @@
 <template >
-<div style="height: 150vh;background-color: gray">
+<div style="min-height: 120vh;height:auto;background-color: gray;overflow: auto">
   <div>
     <el-container class="UpContainer">
       <img src="@/assets/logo.png" alt="" style = "width:1000px">
     </el-container>
   </div>
   <div class="insideBox">
-    <div style="flex: 1">
+    <div style="flex: 1;margin-bottom: 20px">
       <div style="height: 5vh;display: flex;align-items: center">
         <div size="small" style="flex: 1">
           <el-button size="small" style="float: left;margin-left: 30px" @click = "goBack">back</el-button>
         </div>
         <el-pagination
-            style="float: right;"
-            small
+            @current-change="handlePageChange"
+            :current-page="currentPage"
+            :page-size="itemsPerPage"
+            background
             layout="prev, pager, next"
-            :total="30"
+            :total="data.length"
         >
         </el-pagination>
       </div>
 
-      <el-container style="width: 100%;margin: auto;">
+      <el-container v-for="post in posts" :key="post.id" style="width: 100%;margin: auto;">
         <el-header height="20px" style="background-color: azure;"> </el-header>
         <el-container>
           <el-aside  width="250px" class="postAside">
             <img src="@/assets/User.jpg" alt="" style = "width: 50%;border: 2px solid white;margin-top: 20px">
-            <div class="username">Username</div>
+            <div class="username">{{ post.userId }}</div>
           </el-aside>
           <el-main  style="background-color: white;border: 2px solid #000000">
             <div style="border-bottom: 2px dashed black;height: 2vh;text-align: left">
-              Published: Today
+              Published: {{ post.date }}
             </div>
             <div style="text-align: left;margin-top: 20px">
-              Content
+              {{ post.content }}
             </div>
           </el-main>
         </el-container>
@@ -49,7 +51,7 @@
             <el-input
                 type="textarea"
                 :rows="10"
-                placeholder="请输入内容"
+                placeholder="Reply something..."
                 v-model="textarea"
                 style="border: 3px solid black;margin-bottom: 20px">
             </el-input>
@@ -69,14 +71,38 @@ export default {
   name: "postView",
   data() {
     return {
-      textarea: ''
+      data: [
+        { id: 1, date: "2023-10-25", userId: "User1", content: "This is a sample post!" },
+        { id: 2, date: "2023-10-25", userId: "User2", content: "This is a sample post!" },
+        { id: 3, date: "2023-10-25", userId: "User3", content: "This is a sample post!" },
+        { id: 4, date: "2023-10-25", userId: "User4", content: "This is a sample post!" },
+        { id: 5, date: "2023-10-25", userId: "User5", content: "This is a sample post!" },
+        { id: 6, date: "2023-10-25", userId: "User6", content: "This is a sample post!" },
+        { id: 7, date: "2023-10-25", userId: "User7", content: "This is a sample post!" },
+        { id: 8, date: "2023-10-25", userId: "User8", content: "This is a sample post!" },
+        // ... add other posts
+      ],
+      textarea: '',
+      currentPage : 1,
+      itemsPerPage: 5,
+    }
+  },
+  computed:{
+    posts(){
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.data.slice(start, end);
     }
   },
   methods:{
     goBack(){
       this.$router.push("/forum");
-    }
-  }
+    },
+    handlePageChange(page) {
+      this.currentPage = page;
+    },
+  },
+
 }
 </script>
 
@@ -91,7 +117,7 @@ export default {
 .insideBox{
   width: 90%;
   margin: auto;
-  height: 130vh;
+  height: 100vh;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -100,6 +126,7 @@ export default {
   flex:0;
   width: 100%;
   align-self: center;
+  margin-top: 50px;
 
 }
 .postAside{
