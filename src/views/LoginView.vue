@@ -1,5 +1,5 @@
 <template>
-  <div class="login" style="height: 70vh;display: flex;align-items: center;justify-content:center;overflow:hidden;">
+  <div class="login" >
     <div style="flex: 1">
       <img src="@/assets/login.jpg" alt="" style = "width: 50%">
     </div>
@@ -45,5 +45,11 @@ export default {
 </script>
 
 <style scoped>
-
+.login{
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  overflow:hidden;
+}
 </style>

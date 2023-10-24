@@ -1,11 +1,11 @@
 <template >
 <div style="height: 150vh;background-color: gray">
   <div>
-    <el-container class="container">
-      <img src="@/assets/logo.png" alt="" style = "width: 60%">
+    <el-container class="UpContainer">
+      <img src="@/assets/logo.png" alt="" style = "width:1000px">
     </el-container>
   </div>
-  <div style="width: 90%;margin: auto;height: 130vh;background-color: white;display: flex; flex-direction: column;">
+  <div class="insideBox">
     <div style="flex: 1">
       <div style="height: 5vh;display: flex;align-items: center">
         <div size="small" style="flex: 1">
@@ -81,14 +81,21 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.UpContainer {
   margin: auto;
-  height: 15vh;
+  height: 20vh;
   background-color: white;
   justify-content: center;
   border-bottom: 10px solid black;
 }
-
+.insideBox{
+  width: 90%;
+  margin: auto;
+  height: 130vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
 .replyInput{
   flex:0;
   width: 100%;
