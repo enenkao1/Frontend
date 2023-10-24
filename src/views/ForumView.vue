@@ -1,12 +1,21 @@
+/* eslint-disable */
 <template>
 <div>
   <img src="@/assets/logo.png" alt="" style = "width: 60%;margin-top: 50px">
-  <h1 style="text-align: center;margin-top: 50px">Welcome to smart coder community</h1>
-  <el-button type="primary" round="true" class="postButton" @click="addPost()">Post</el-button>
-  <div>
+  <h1 style="text-align: center;margin-top: 30px">Welcome to smart coder community</h1>
+  <div class="buttonBox" >
+    <div style="text-align: left; width: 100%;">
+      <el-button type="primary" round="true" class="postButton" @click="addPost()">Post</el-button>
+    </div>
+  </div>
+  <div class="tableUp">
+  </div>
+  <div class="insideBox">
     <el-table
-        :data="tableData" @row-click="goTask"
+        :data="paginatedData"
+        :cell-style="{padding:'13px'}"
         stripe
+        @row-click="goTask"
         style="width: 100%;">
       <el-table-column
           prop="date"
@@ -32,7 +41,17 @@
       </el-table-column>
     </el-table>
   </div>
+  <div style="margin-top: 10px">
+    <el-pagination
+        @current-change="handlePageChange"
+        :current-page="currentPage"
+        :page-size="itemsPerPage"
+        background
+        layout="prev, pager, next"
+        :total="tableData.length">
+    </el-pagination>
   </div>
+</div>
 
 </template>
 
@@ -41,6 +60,9 @@ export default {
   name: "ForumView",
   data() {
     return {
+      new : 0,
+      currentPage : 1,
+      itemsPerPage: 16,
       tableData: [{
         date: '2023-10-23',
         name: 'Welcome to here',
@@ -59,26 +81,62 @@ export default {
       }]
     }
   },
+  computed:{
+    paginatedData(){
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.tableData.slice(start, end);
+    }
+  },
   methods:{
     goTask(){
       this.$router.push("/post");
     },
     addPost(){
+      this.new = this.new + 1 ;
+      let postName = 'Welcome to here ' + this.new;
       this.tableData.push({
         date: '2023-10-23',
-        name: 'Welcome to here',
+        name: postName,
         author: 'Admin',
         reply:'user'
       })
-    }
+    },
+    handlePageChange(page) {
+      this.currentPage = page;
+    },
   }
 }
 </script>
 
 <style scoped>
 .postButton{
-  margin-top: 70px;
-  margin-bottom:30px;
+  margin-top:10px;
+  margin-bottom:10px;
   float: left;
+}
+.insideBox{
+  width: 90%;
+  margin: auto;
+  height: 60vh;
+  background-color: white;
+  border: 1px solid black;
+}
+.tableUp{
+  height: 2vh;
+  background-color: lightgray;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  align-items:center;
+  border: 1px solid gray;
+}
+.buttonBox{
+  height: 5vh;
+  background-color: white;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
 }
 </style>
