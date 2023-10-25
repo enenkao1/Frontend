@@ -5,7 +5,7 @@
   <h1 style="text-align: center;margin-top: 30px">Welcome to smart coder community</h1>
   <div class="buttonBox" >
     <div style="text-align: left; width: 100%;">
-      <el-button type="primary" round="true" class="postButton" @click="addPost()">Post</el-button>
+      <el-button type="primary" round class="postButton" @click="addPost()">Post</el-button>
     </div>
   </div>
   <div class="tableUp">
@@ -68,18 +68,21 @@ export default {
       currentPage : 1,
       itemsPerPage: 16,
       tableData: [{
+        id:1,
         date: '2023-10-23',
         name: 'Welcome to here',
         status: 'Unsolved',
         author: 'Admin',
         reply:'user'
       }, {
+        id:2,
         date: '2023-10-23',
         name: 'Welcome to here',
         status: 'Unsolved',
         author: 'Admin',
         reply:'user'
       }, {
+        id:3,
         date: '2023-10-23',
         name: 'Welcome to here',
         status: 'Unsolved',
@@ -96,13 +99,15 @@ export default {
     }
   },
   methods:{
-    goTask(){
+    goTask(row){
+      console.log('点击： ', row.id);
       this.$router.push("/post");
     },
     addPost(){
       this.new = this.new + 1 ;
       let postName = 'Welcome to here ' + this.new;
       this.tableData.push({
+        id:this.tableData.length+1,
         date: '2023-10-23',
         name: postName,
         status: 'Solved',

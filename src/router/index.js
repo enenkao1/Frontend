@@ -9,6 +9,7 @@ import RegView from '../views/RegView.vue';
 import ForumView from "@/views/ForumView";
 import postView from "@/views/postView";
 import TempView from "@/views/TempView";
+import userMainView from "@/views/userMainView";
 Vue.use(VueRouter)
 
 const routes = [
@@ -64,6 +65,11 @@ const routes = [
     path: '/temp',
     name: 'temp',
     component: TempView
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: userMainView
   },
 ]
 
