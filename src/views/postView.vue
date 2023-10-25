@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template >
 <div class="mainBox">
   <div>
@@ -17,7 +18,7 @@
             :page-size="itemsPerPage"
             background
             layout="prev, pager, next"
-            :total="data.length"
+            :total="this.data.length"
         >
         </el-pagination>
       </div>
@@ -55,7 +56,7 @@
                 v-model="textarea"
                 style="border: 3px solid black;margin-bottom: 20px">
             </el-input>
-            <el-button type="primary" style="float: left">Post</el-button>
+            <el-button type="primary" style="float: left" @click="newPost">Post</el-button>
           </div>
         </el-main>
       </el-container>
@@ -74,17 +75,19 @@ export default {
       data: [
         { id: 1, date: "2023-10-25", userId: "User1", content: "This is a sample post!" },
         { id: 2, date: "2023-10-25", userId: "User2", content: "This is a sample post!" },
-        { id: 3, date: "2023-10-25", userId: "User3", content: "This is a sample post!" },
-        { id: 4, date: "2023-10-25", userId: "User4", content: "This is a sample post!" },
-        { id: 5, date: "2023-10-25", userId: "User5", content: "This is a sample post!" },
-        { id: 6, date: "2023-10-25", userId: "User6", content: "This is a sample post!" },
-        { id: 7, date: "2023-10-25", userId: "User7", content: "This is a sample post!" },
-        { id: 8, date: "2023-10-25", userId: "User8", content: "This is a sample post!" },
+        // { id: 3, date: "2023-10-25", userId: "User3", content: "This is a sample post!" },
+        // { id: 4, date: "2023-10-25", userId: "User4", content: "This is a sample post!" },
+        // { id: 5, date: "2023-10-25", userId: "User5", content: "This is a sample post!" },
+        // { id: 6, date: "2023-10-25", userId: "User6", content: "This is a sample post!" },
+        // { id: 7, date: "2023-10-25", userId: "User7", content: "This is a sample post!" },
+        // { id: 8, date: "2023-10-25", userId: "User8", content: "This is a sample post!" },
         // ... add other posts
       ],
       textarea: '',
       currentPage : 1,
       itemsPerPage: 5,
+      userId:'Me',
+      total: 0,
     }
   },
   computed:{
@@ -94,6 +97,9 @@ export default {
       return this.data.slice(start, end);
     }
   },
+  mounted() {
+
+  },
   methods:{
     goBack(){
       this.$router.push("/forum");
@@ -101,6 +107,24 @@ export default {
     handlePageChange(page) {
       this.currentPage = page;
     },
+    goToLastPage() {
+      const finalPage = Math.ceil(this.data.length / this.itemsPerPage);
+      this.currentPage = finalPage;
+    },
+    newPost(){
+      let Text = this.textarea;
+      let newData = {
+        id: this.data.length + 1,
+        date:'2023-10-25',
+        userId:this.userId,
+        content: Text
+      }
+      this.data.push(newData);
+      // console.log(this.data);
+      this.textarea = '';
+      this.goToLastPage();
+
+    }
   },
 
 }
