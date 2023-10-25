@@ -31,8 +31,10 @@
             <div class="username">{{ post.userId }}</div>
           </el-aside>
           <el-main  style="background-color: white;border: 2px solid #000000">
-            <div style="border-bottom: 2px dashed black;height: 2vh;text-align: left">
-              Published: {{ post.date }}
+            <div style="border-bottom: 2px dashed black;height: 2vh;text-align: left;display: flex;align-items: center;justify-content: space-between">
+                Published: {{ post.date }}
+                <h4 v-if="post.adopt" style="margin-bottom: 15px">Adopted Answer</h4>
+                <el-button size="small" style="margin-bottom: 15px" v-if="isLandlord && noAdoption" @click="adoptClick(post.id)">Adopt</el-button>
             </div>
             <div style="text-align: left;margin-top: 20px">
               {{ post.content }}
@@ -72,15 +74,12 @@ export default {
   name: "postView",
   data() {
     return {
+      landLordPost:{ id: 1, date: "2023-10-25", userId: "User1", content: "This is a sample post!",adopt:false },
+      adoptPost:{ id: 0, date: " ", userId: " ", content: " ",adopt:true, },
       data: [
-        { id: 1, date: "2023-10-25", userId: "User1", content: "This is a sample post!" },
-        { id: 2, date: "2023-10-25", userId: "User2", content: "This is a sample post!" },
-        // { id: 3, date: "2023-10-25", userId: "User3", content: "This is a sample post!" },
-        // { id: 4, date: "2023-10-25", userId: "User4", content: "This is a sample post!" },
-        // { id: 5, date: "2023-10-25", userId: "User5", content: "This is a sample post!" },
-        // { id: 6, date: "2023-10-25", userId: "User6", content: "This is a sample post!" },
-        // { id: 7, date: "2023-10-25", userId: "User7", content: "This is a sample post!" },
-        // { id: 8, date: "2023-10-25", userId: "User8", content: "This is a sample post!" },
+        { id: 3, date: "2023-10-25", userId: "User3", content: "This is a sample post!",adopt:false, },
+        { id: 4, date: "2023-10-25", userId: "User4", content: "This is a sample post!",adopt:false, },
+
         // ... add other posts
       ],
       textarea: '',
@@ -88,6 +87,8 @@ export default {
       itemsPerPage: 5,
       userId:'Me',
       total: 0,
+      isLandlord:true,
+      noAdoption:true,
     }
   },
   computed:{
@@ -98,7 +99,7 @@ export default {
     }
   },
   mounted() {
-
+    this.data.unshift(this.landLordPost);
   },
   methods:{
     goBack(){
@@ -117,13 +118,26 @@ export default {
         id: this.data.length + 1,
         date:'2023-10-25',
         userId:this.userId,
-        content: Text
+        content: Text,
+        adopt: false
       }
       this.data.push(newData);
       // console.log(this.data);
       this.textarea = '';
       this.goToLastPage();
 
+    },
+    // eslint-disable-next-line no-unused-vars
+    adoptClick(id){
+      console.log(id);
+      /* eslint-disable */
+      this.data.forEach((row,index)=>{
+        if(row.id == id){
+          console.log(row.content);
+          this.adoptPost = {...row}
+          console.log(this.adoptPost.content);
+        }
+      });
     }
   },
 

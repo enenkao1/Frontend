@@ -1,5 +1,7 @@
 <template>
-  <div class="login" >
+  <div >
+    <div class="blue-bar top-bar"></div>
+    <div  class="login">
     <div style="flex: 1">
       <img src="@/assets/login.jpg" alt="" style = "width: 50%">
     </div>
@@ -23,8 +25,10 @@
 
     </div>
 
-
+    </div>
+    <div class="blue-bar2"></div>
   </div>
+
 </template>
 
 <script>
@@ -73,7 +77,7 @@ export default {
 
 <style scoped>
 .login{
-  height: 70vh;
+  min-height: 90vh;
   display: flex;
   align-items: center;
   justify-content:center;
@@ -84,5 +88,22 @@ export default {
   text-align: left;
   margin-left: 135px;
   margin-bottom: 20px;
+}
+.blue-bar {
+  position: fixed;
+  width: 100%;
+  height: 8vh;
+  background-color: blue;
+  opacity: 0.5;
+  box-shadow: 0 8px 15px rgba(0, 0, 255, 0.6);
+  z-index: 1000;
+}
+.blue-bar2 {
+  width: 100%;
+  height: 10vh;
+  background-color: blue;
+  opacity: 0.5;
+  box-shadow: 0 8px 15px rgba(0, 0, 255, 0.6);
+  z-index: 1000;
 }
 </style>
