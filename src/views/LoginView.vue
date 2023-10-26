@@ -11,13 +11,13 @@
       </div>
       <el-form :label-position="labelPosition" label-width="130px" :model="loginForm">
         <el-form-item label="Username" style="width:500px">
-          <el-input v-model="loginForm.name" placeholder="..."></el-input>
+          <el-input v-model="loginForm.username" placeholder="..."></el-input>
         </el-form-item>
         <el-form-item label="Password" style="width:500px">
-          <el-input v-model="loginForm.password" placeholder="..."></el-input>
+          <el-input type="password" v-model="loginForm.password" placeholder="..." show-password></el-input>
         </el-form-item>
         <el-form-item style="width:500px;margin-bottom: 40px">
-          <el-button type="primary" round style="width: 100%" @click="login">Login</el-button>
+          <el-button type="primary" round style="width: 100%" @click="login()">Login</el-button>
         </el-form-item>
         <div style="text-align: left;margin-left: 120px;margin-bottom: 10px;">Create an account, click <span style="color: blue; cursor:pointer;border-bottom: 1px solid blue;" @click="goReg()">here</span></div>
         <div style="text-align: left;margin-left: 120px">Forget your password, click <span style="color: blue; cursor:pointer;border-bottom: 1px solid blue;">here</span></div>
@@ -38,38 +38,36 @@ export default {
     return {
       labelPosition: 'right',
       loginForm: {
-        name: '',
+        username: '',
         password: ''
       },
-      tableData:[
-        { id: 1, userId: "user", password: "123456" },
-        { id: 2, userId: "user2", password: "1234567" },
-      ],
       loginFail: false,
-
     };
   },
   methods:{
-    login(){
-      let match = false;
-      /* eslint-disable */
-      this.tableData.forEach((row,index)=>{
-          if(this.loginForm.name == row.userId && this.loginForm.password == row.password ){
-
-            match = true;
-          }
-      });
-      if(match==true){
-        this.goUser();
-      }else{
-        this.loginFail = true;
-      }
+    login() {
+      this.$axios.post(this.$httpurl + '/users/login', this.loginForm)
+          .then(res => res.data)
+          .then(res => {
+            console.log(res);
+            if (res.code === 200) {
+              this.loginRole = res.data.roles
+              this.userInfo =res.data.userInfo
+              // 保存用户ID，username到localStorage
+              localStorage.setItem('id', res.data.id);
+              localStorage.setItem('username', res.data.username);
+              console.log( "user info"+res.data.userInfo)
+              this.goUser();
+            } else {
+              this.$message.error("Your username or password is wrong, please try again.");
+            }
+          });
     },
     goReg(){
       this.$router.push("/reg");
     },
     goUser(){
-      this.$router.push("/user")
+      this.$router.push("/CodeGeneration")
     }
   }
 }

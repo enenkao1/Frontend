@@ -28,8 +28,17 @@ export default {
   name: 'AppHeader',
   data() {
     return {
-      username: 'Hi, Username',
+      username: '',
     };
+  },
+  created() {
+    // 尝试从localStorage或sessionStorage获取用户ID
+    const storedUsername = localStorage.getItem('username') || sessionStorage.getItem('username');
+    if (storedUsername) {
+      this.username = `Hi, ${storedUsername}`;
+    } else {
+      this.username = 'Hi, Guest';
+    }
   },
   methods: {
     goToDiscussionRoom() {
@@ -37,11 +46,15 @@ export default {
       this.$router.push('/discussion-room');
     },
     logout() {
+      // 在登出时，你可能还想清除存储的用户信息
+      localStorage.removeItem('username');
+      sessionStorage.removeItem('username');
       this.$router.push('/login');
     },
   },
 };
 </script>
+
 
 <style scoped>
 .header {
