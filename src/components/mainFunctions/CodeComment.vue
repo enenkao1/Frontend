@@ -44,19 +44,35 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       console.log('Submitted!');
-      setTimeout(() => {
-        this.resultData = '这是从服务器返回的结果';
+      const prompt = `The current code needs to be commented, the code is${this.textarea}`;
+      const payload = {
+        seed: 2000,
+        lang: 0,
+        prompt,
+        max_length: 1280,
+        top_p: 0.95,
+        temperature: 0.2,
+        top_k: 0
+      };
+
+      try {
+        const response = await this.$axios.post(this.$cudaurl + '/createItem', payload);
+        console.log('服务器返回的结果:', response.time);
+        this.resultData = response.response;
         this.showResult = true;
-      }, 1000);
+      } catch (error) {
+        console.error('请求失败:', error);
+        // 处理错误，例如显示错误消息
+      }
     },
     handleClear() {
       this.textarea = '';
       this.radio = 3;
       this.showResult = false;
       this.resultData = '';
-    }
+    },
   }
 };
 </script>

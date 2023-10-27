@@ -45,8 +45,8 @@ export default {
     };
   },
   methods:{
-    login() {
-      this.$axios.post(this.$httpurl + '/users/login', this.loginForm)
+    async login() {
+      await this.$axios.post(this.$httpurl + '/users/login', this.loginForm)
           .then(res => res.data)
           .then(res => {
             console.log(res);
