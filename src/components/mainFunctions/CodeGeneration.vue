@@ -50,7 +50,7 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       console.log('Submitted!');
       const prompt = `Generate code according to the requirement, requirement is: ${this.textarea}`;
       const langMapping = { 3: 'Python', 6: 'Java', 9: 'Javascript' };
@@ -65,7 +65,7 @@ export default {
       };
 
       try {
-        const response = this.$axios.post(this.$cudaurl + '/createItem', payload);
+        const response = await this.$axios.post(this.$cudaurl + '/createItem', payload);
         console.log('服务器返回的结果:', response.time);
         this.resultData = response.response;
         this.showResult = true;

@@ -44,7 +44,7 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       console.log('Submitted!');
       const prompt = `The current code needs to be commented, the code is${this.textarea}`;
       const payload = {
@@ -58,7 +58,7 @@ export default {
       };
 
       try {
-        const response = this.$axios.post(this.$cudaurl + '/createItem', payload);
+        const response = await this.$axios.post(this.$cudaurl + '/createItem', payload);
         console.log('服务器返回的结果:', response.time);
         this.resultData = response.response;
         this.showResult = true;
