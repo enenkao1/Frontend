@@ -18,31 +18,37 @@
         @row-click="goTask"
         class="table">
       <el-table-column
-          prop="date"
+          prop="submittedTime"
           label="Date"
-          width="180">
+          width="300">
       </el-table-column>
       <el-table-column
-          prop="name"
+          prop="content"
           label=" "
           width="500"
         >
       </el-table-column>
       <el-table-column
-          prop="status"
+          prop="codeType"
+          label="Language"
+          width="200"
+      >
+      </el-table-column>
+      <el-table-column
+          prop="finished"
           label="Status"
-          width="200">
+          width="150">
+        <template v-slot:default="scope">
+          <span>{{ scope.row.finished === 0 ? 'Unsolved' : scope.row.status }}</span>
+          <span>{{ scope.row.finished === 1 ? 'Solved' : scope.row.status }}</span>
+        </template>
       </el-table-column>
       <el-table-column
-          prop="author"
+          prop="userId"
           label="Author"
-          width="200">
+          width="150">
       </el-table-column>
-      <el-table-column
-          prop="reply"
-          label="Last replied"
-          >
-      </el-table-column>
+
     </el-table>
   </div>
   <div style="margin-top: 10px">
@@ -60,6 +66,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "ForumView",
   data() {
@@ -88,19 +96,25 @@ export default {
         status: 'Unsolved',
         author: 'Admin',
         reply:'user'
-      }]
+      }],
+      getData:[],
+
     }
   },
   computed:{
     paginatedData(){
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
-      return this.tableData.slice(start, end);
-    }
+      return this.getData.slice(start, end);
+    },
+
+  },
+  mounted() {
+    this.getTask();
   },
   methods:{
+    // eslint-disable-next-line no-unused-vars
     goTask(row){
-      console.log('点击： ', row.id);
       this.$router.push("/post");
     },
     addPost(){
@@ -118,6 +132,14 @@ export default {
     handlePageChange(page) {
       this.currentPage = page;
     },
+    getTask(){
+      // eslint-disable-next-line no-unused-vars
+      axios.get("http://localhost:9090/task/auth/ask/list").then((response) => {
+          this.getData = response.data.data;
+          console.log(this.getData);
+        }
+      );
+    }
   }
 }
 </script>
@@ -129,7 +151,7 @@ export default {
   float: left;
 }
 .insideBox{
-  width: 90%;
+  width: 1300px;
   margin: auto;
   min-height: 60vh;
   height: auto;
@@ -139,7 +161,7 @@ export default {
 .tableUp{
   height: 2vh;
   background-color: lightgray;
-  width: 90%;
+  width: 1300px;
   margin: auto;
   display: flex;
   align-items:center;
@@ -148,7 +170,7 @@ export default {
 .buttonBox{
   height: 5vh;
   background-color: white;
-  width: 90%;
+  width: 1300px;
   margin: auto;
   display: flex;
   justify-content: center;
