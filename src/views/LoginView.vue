@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div class="blue-bar top-bar"></div>
     <div  class="login">
     <div style="flex: 1">
@@ -22,18 +22,23 @@
         <div style="text-align: left;margin-left: 120px;margin-bottom: 10px;">Create an account, click <span style="color: blue; cursor:pointer;border-bottom: 1px solid blue;" @click="goReg()">here</span></div>
         <div style="text-align: left;margin-left: 120px">Forget your password, click <span style="color: blue; cursor:pointer;border-bottom: 1px solid blue;">here</span></div>
       </el-form>
-
     </div>
-
     </div>
     <div class="blue-bar2"></div>
+    <div>
+      <loading-with-countdown :duration="60" :is-visible="isLoading" />
+    </div>
   </div>
-
 </template>
 
 <script>
+import LoadingWithCountdown from "@/components/public/LoadingWithCountdown.vue";
+
 export default {
   name: "LoginView",
+  components: {
+    LoadingWithCountdown,
+  },
   data() {
     return {
       labelPosition: 'right',
@@ -42,10 +47,12 @@ export default {
         password: ''
       },
       loginFail: false,
+      isLoading: false,
     };
   },
   methods:{
     async login() {
+      this.isLoading = true;
       await this.$axios.post(this.$httpurl + '/users/login', this.loginForm)
           .then(res => res.data)
           .then(res => {
@@ -61,6 +68,12 @@ export default {
             } else {
               this.$message.error("Your username or password is wrong, please try again.");
             }
+          })
+          .catch(error => {
+              console.error('There was an error!', error);
+            })
+          .finally(() => {
+            this.isLoading = false;
           });
     },
     goReg(){

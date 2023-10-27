@@ -27,6 +27,9 @@
         </result-display>
       </el-main>
     </el-container>
+    <div>
+      <loading-with-countdown :duration="60" :is-visible="isLoading" />
+    </div>
   </div>
 </template>
 
@@ -34,23 +37,35 @@
 import AppHeader from '@/components/public/Header.vue';
 import AppNavbar from '@/components/public/Navbar.vue';
 import ResultDisplay from '@/components/public/ResultDisplay.vue';
+import axios from "axios";
+import LoadingWithCountdown from "@/components/public/LoadingWithCountdown.vue";
 
 export default {
   components: {
     AppHeader,
     AppNavbar,
-    ResultDisplay
+    ResultDisplay,
+    LoadingWithCountdown
   },
   data() {
     return {
       textarea: '',
       radio: 3,
       showResult: false,
-      resultData: ''
+      resultData: '',
+      isLoading: false,
     }
   },
   methods: {
+    post(url, data, success){
+      axios.post(url, data).then(({data}) => {
+        if (data.status === 200) {
+          success(data);
+        }
+      })
+    },
     async handleSubmit() {
+      this.isLoading = true;
       console.log('Submitted!');
       const prompt = `Generate code according to the requirement, requirement is: ${this.textarea}`;
       const langMapping = { 3: 'Python', 6: 'Java', 9: 'Javascript' };
@@ -65,13 +80,13 @@ export default {
       };
 
       try {
-        const response = await this.$axios.post(this.$cudaurl + '/createItem', payload);
-        console.log('服务器返回的结果:', response.time);
-        this.resultData = response.response;
-        this.showResult = true;
+        this.post(this.$cudaurl + '/createItem', payload, (data) =>{
+          this.resultData = data.response
+          this.showResult = true})
       } catch (error) {
         console.error('请求失败:', error);
-        // 处理错误，例如显示错误消息
+      } finally {
+        this.isLoading = false;
       }
     },
     handleClear() {
