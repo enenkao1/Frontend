@@ -65,7 +65,7 @@ export default {
       };
 
       try {
-        const response = this.$axios.post('/createItem', payload);
+        const response = this.$axios.post(this.$cudaurl + '/createItem', payload);
         console.log('服务器返回的结果:', response.time);
         this.resultData = response.response;
         this.showResult = true;

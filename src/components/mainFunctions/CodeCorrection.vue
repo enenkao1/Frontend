@@ -46,7 +46,7 @@ export default {
   methods: {
     handleSubmit() {
       console.log('Submitted!');
-      const prompt = `Correct code according to the requirement, requirement is: ${this.textarea}`;
+      const prompt = `There are some bugs in the current code that need to be corrected. The code is: ${this.textarea}`;
       const payload = {
         seed: 2000,
         lang: 0,
@@ -58,7 +58,7 @@ export default {
       };
 
       try {
-        const response = this.$axios.post('/createItem', payload);
+        const response = this.$axios.post(this.$cudaurl + '/createItem', payload);
         console.log('服务器返回的结果:', response.time);
         this.resultData = response.response;
         this.showResult = true;

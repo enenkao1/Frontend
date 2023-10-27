@@ -11,6 +11,7 @@ Vue.config.productionTip = false
 
 Vue.prototype.$axios = axios;
 Vue.prototype.$httpurl = ' http://localhost:9090'
+Vue.prototype.$cudaurl = ' http://localhost:7860'
 Vue.prototype.$websocketurl = 'ws://localhost:9090'
 
 new Vue({
