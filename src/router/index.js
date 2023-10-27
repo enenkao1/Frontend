@@ -10,6 +10,7 @@ import ForumView from "@/views/ForumView";
 import postView from "@/views/postView";
 import TempView from "@/views/TempView";
 import userMainView from "@/views/userMainView";
+import TaskCreateView from "@/views/TaskCreateView";
 Vue.use(VueRouter)
 
 const routes = [
@@ -70,6 +71,11 @@ const routes = [
     path: '/user',
     name: 'user',
     component: userMainView
+  },
+  {
+    path: '/taskcreate',
+    name: 'taskcreate',
+    component: TaskCreateView
   },
 ]
 

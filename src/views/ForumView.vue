@@ -5,7 +5,7 @@
   <h1 style="text-align: center;margin-top: 30px">Welcome to smart coder community</h1>
   <div class="buttonBox" >
     <div style="text-align: left; width: 100%;">
-      <el-button type="primary" round class="postButton" @click="addPost()">Post</el-button>
+      <el-button type="primary" round class="postButton" @click="goCreateTask()">Create Task</el-button>
     </div>
   </div>
   <div class="tableUp">
@@ -75,28 +75,7 @@ export default {
       new : 0,
       currentPage : 1,
       itemsPerPage: 16,
-      tableData: [{
-        id:1,
-        date: '2023-10-23',
-        name: 'Welcome to here',
-        status: 'Unsolved',
-        author: 'Admin',
-        reply:'user'
-      }, {
-        id:2,
-        date: '2023-10-23',
-        name: 'Welcome to here',
-        status: 'Unsolved',
-        author: 'Admin',
-        reply:'user'
-      }, {
-        id:3,
-        date: '2023-10-23',
-        name: 'Welcome to here',
-        status: 'Unsolved',
-        author: 'Admin',
-        reply:'user'
-      }],
+      tableData: [{ }],
       getData:[],
 
     }
@@ -136,9 +115,27 @@ export default {
       // eslint-disable-next-line no-unused-vars
       axios.get("http://localhost:9090/task/auth/ask/list").then((response) => {
           this.getData = response.data.data;
-          console.log(this.getData);
+          //console.log(this.getData);
         }
       );
+    },
+    async addTask() {
+      this.new = this.new + 1;
+      let postName = 'Welcome to here ' + this.new;
+      let newTask = {
+        taskId: this.getData.length + 1,
+        submittedTime: '2023-10-23',
+        content: postName,
+        finished: 0,
+        userId: 1,
+        codeType: 'java'
+      }
+      const response = await axios.post('http://localhost:9090/task/auth/add', newTask);
+      console.log('Data saved', response.data.message);
+      this.getTask();
+    },
+    goCreateTask(){
+      this.$router.push("/taskcreate");
     }
   }
 }
