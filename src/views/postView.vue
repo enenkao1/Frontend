@@ -14,7 +14,7 @@
             :page-size="itemsPerPage"
             background
             layout="prev, pager, next"
-            :total="this.data.length"
+            :total="this.answerList.length"
         >
         </el-pagination>
       </div>
@@ -24,13 +24,13 @@
         <el-container>
           <el-aside  width="250px" class="postAside">
             <img src="@/assets/User.jpg" alt="" style = "width: 50%;border: 2px solid white;margin-top: 20px">
-            <div class="username">{{ post.userId }}</div>
+            <div class="username">{{ post.username }}</div>
           </el-aside>
           <el-main  style="background-color: white;border: 2px solid #000000">
             <div style="border-bottom: 2px dashed black;height: 2vh;text-align: left;display: flex;align-items: center;justify-content: space-between">
-                Published: {{ post.date }}
-                <h4 v-if="post.adopt" style="margin-bottom: 15px">Adopted Answer</h4>
-                <el-button size="small" style="margin-bottom: 15px" v-if="isLandlord && noAdoption && post.id!=1" @click="adoptClick(post.id)">Adopt</el-button>
+                Published: {{ post.submittedTime }}
+                <h4 v-if="post.accepted" style="margin-bottom: 15px">Adopted Answer</h4>
+                <el-button size="small" style="margin-bottom: 15px" v-if="isLandlord && noAdoption && post.userId != LandlordId" @click="adoptClick(post.floor)">Adopt</el-button>
             </div>
             <div style="text-align: left;margin-top: 20px">
               {{ post.content }}
@@ -54,7 +54,7 @@
                 v-model="textarea"
                 style="border: 3px solid black;margin-bottom: 20px">
             </el-input>
-            <el-button type="primary" style="float: left" @click="newPost">Post</el-button>
+            <el-button type="primary" style="float: left" @click="newAnswer">Post</el-button>
           </div>
         </el-main>
       </el-container>
@@ -67,6 +67,7 @@
 
 <script>
 import AppHeader from "@/components/public/Header.vue";
+import axios from "axios";
 
 export default {
   name: "postView",
@@ -76,32 +77,37 @@ export default {
   data() {
     return {
       landLordPost:{ id: 1, date: "2023-10-25", userId: "User1", content: "This is a sample post!",adopt:false, },
-      adoptPost:{ id: 0, date: " ", userId: " ", content: " ",adopt:true, },
-      data: [
-        { id: 2, date: "2023-10-25", userId: "User2", content: "This is a sample post!",adopt:false, },
-        { id: 3, date: "2023-10-25", userId: "User3", content: "This is a sample post!",adopt:false, },
-        { id: 4, date: "2023-10-25", userId: "User4", content: "This is a sample post!",adopt:false, },
-        // ... add other posts
-      ],
       textarea: '',
       currentPage : 1,
       itemsPerPage: 5,
       userId:'Me',
       total: 0,
-      isLandlord:true,
+      isLandlord:false,
+      LandlordId: -1,
       noAdoption:true,
+      taskID: -1,
+      answerList:[],
+      taskDetail:[],
+      totalAnswer:-1,
+      test:true,
+
     }
   },
   computed:{
     posts(){
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
-      return this.data.slice(start, end);
+      return this.answerList.slice(start, end);
     }
   },
+  beforeMount() {
+    this.taskID = localStorage.getItem("lastOpen");
+    this.getDetail();
+    this.getTotalAnswerAmount();
+    this.getDetail();
+  },
   mounted() {
-    this.data.unshift(this.landLordPost);
-    console.log(localStorage.getItem("lastOpen"));
+
   },
   methods:{
     goBack(){
@@ -111,39 +117,92 @@ export default {
       this.currentPage = page;
     },
     goToLastPage() {
-      const finalPage = Math.ceil(this.data.length / this.itemsPerPage);
+      const finalPage = Math.ceil(this.answerList.length / this.itemsPerPage);
       this.currentPage = finalPage;
     },
-    newPost(){
-      let Text = this.textarea;
-      let newData = {
-        id: this.data.length + 1,
-        date:'2023-10-25',
-        userId:this.userId,
-        content: Text,
-        adopt: false
-      }
-      this.data.push(newData);
-      this.textarea = '';
-      this.goToLastPage();
+    deleteTest(){
+      console.log(this.answerList.length);
+      this.answerList.splice(1,1);
+      this.test = false;
 
+    },
+
+    async newAnswer() {
+      let Text = this.textarea;
+      const Time = new Date().toLocaleDateString();
+      let newData = {
+        accepted: 0,
+        answerId: 0,
+        userId: localStorage.getItem('id'),
+        content: Text,
+        taskId: this.taskID,
+        submittedTime: Time,
+        floor:this.answerList.length+1,
+      };
+      const response = await axios.post('http://localhost:9090/answer/auth/add', newData);
+      if (response.data.code == 200) {
+        this.$message.success("Reply success! ");
+        this.textarea='';
+        this.getDetail();
+        this.goToLastPage();
+      } else {
+        this.$message.error("Reply fail ");
+      }
     },
     adoptClick(id){
       /* eslint-disable */
-      this.data.forEach((row,index)=>{
-        if(row.id == id){
-          this.adoptPost = {...row}
-          this.adoptPost.adopt=true;
+      this.answerList.forEach((row,index)=>{
+        if(row.floor == id){
+          console.log("checkit" + row.floor);
         }
       });
-      for (let i = this.data.length - 1; i >= 0; i--) {
-        if (this.data[i].id == id) {
-          this.data.splice(i, 1);
-        }
+      this.noAdoption=false;
+    },
+    getDetail(){
+      axios.get("http://localhost:9090/task/auth/task/detail",{params:{
+          taskId : this.taskID,
+      }}).then((res)=>{
+          this.taskDetail = res.data.data.task;
+          if(this.taskDetail.accepted==1){
+            this.noAdoption = false;
+          }
+          this.answerList = res.data.data.answerList;
+           this.getUser();
+          this.splitDetail();
+          }
+      );
+    },
+    splitDetail(){
+      this.landLordPost = this.answerList[0];
+      this.LandlordId = this.landLordPost.userId;
+      if(localStorage.getItem('id')==this.LandlordId){
+        this.isLandlord = true;
       }
-      this.data.splice(1,0,this.adoptPost)
-      this.noAdoption = false;
-    }
+      console.log(this.landLordPost);
+      const Index = this.answerList.findIndex(item => item.accepted ===1);
+      // if(Index > -1 && Index !==1){
+      //   let Item = this.answerList[Index];
+      //   this.answerList.splice(Index,1);
+      //   console.log(this.answerList);
+      //   // this.answerList.splice(1,0,1);
+      //   // console.log(this.answerList);
+      // }
+    },
+    getUser(){
+      this.answerList.forEach((row,index) => {
+        axios.get("http://localhost:9090/users/auth/getusername", {params:{userId : row.userId}}).then((response) => {
+              this.$set(this.answerList,index,{ ...row, username: response.data.data });
+            }
+        );
+      })
+    },
+    getTotalAnswerAmount(){
+        axios.get("http://localhost:9090/answer/auth/count").then((response) => {
+              this.totalAnswer = response.data.data;
+            }
+        );
+    },
+
   },
 
 }

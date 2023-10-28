@@ -44,7 +44,7 @@
         </template>
       </el-table-column>
       <el-table-column
-          prop="userId"
+          prop="asyncName"
           label="Author"
           width="150">
       </el-table-column>
@@ -120,6 +120,7 @@ export default {
       // eslint-disable-next-line no-unused-vars
       axios.get("http://localhost:9090/task/auth/ask/alllist").then((response) => {
           this.getData = response.data.data;
+          this.getUser();
           //console.log(this.getData);
         }
       );
@@ -141,7 +142,17 @@ export default {
     },
     goCreateTask(){
       this.$router.push("/taskcreate");
-    }
+    },
+    // eslint-disable-next-line no-unused-vars
+    getUser(){
+      this.getData.forEach((row,index) => {
+        axios.get("http://localhost:9090/users/auth/getusername", {params:{userId : row.userId}}).then((response) => {
+              this.$set(this.getData,index,{ ...row, asyncName: response.data.data });
+            }
+        );
+      })
+    },
+
   }
 }
 </script>

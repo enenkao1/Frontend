@@ -71,10 +71,12 @@ export default {
       langFail: false,
       titleFail: false,
       ReqFail: false,
+      totalAnswer:0,
     }
   },
   mounted() {
     this.getTask();
+    this.getTotalAnswerAmount();
   },
   methods: {
     async taskPost() {
@@ -101,16 +103,33 @@ export default {
           submittedTime: Time,
           content: this.title,
           finished: 0,
-          userId: 1,
+          userId: localStorage.getItem('id'),
           codeType: this.lang,
         }
         const response = await axios.post('http://localhost:9090/task/auth/add', newTask);
         if(response.data.code == 200){
-          this.$message.success("Task create success! ");
-          this.goForum();
+          await this.addAnswer();
         }else{
           this.$message.error("Task create fail ");
         }
+      }else{
+        this.$message.error("Task create fail ");
+      }
+    },
+    async addAnswer() {
+      const Time = new Date().toLocaleDateString();
+      let landlordPost = {
+        taskId: this.getData.length + 1,
+        submittedTime: Time,
+        content: this.ReqText,
+        userId: localStorage.getItem('id'),
+        floor: 1,
+        answerId: this.totalAnswer + 1,
+      };
+      const response = await axios.post('http://localhost:9090/answer/auth/add', landlordPost);
+      if(response.data.code == 200){
+        this.$message.success("Task create success! ");
+        this.goForum();
       }else{
         this.$message.error("Task create fail ");
       }
@@ -125,7 +144,13 @@ export default {
     },
     goForum() {
       this.$router.push("/forum");
-    }
+    },
+    getTotalAnswerAmount(){
+      axios.get("http://localhost:9090/answer/auth/count").then((response) => {
+            this.totalAnswer = response.data.data;
+          }
+      );
+    },
   }
 }
 </script>
