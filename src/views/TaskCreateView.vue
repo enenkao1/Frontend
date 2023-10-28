@@ -34,10 +34,10 @@
       </div>
 
       <div class="input-group" style="display: flex;flex-direction: row;align-items: center;margin-top: 10%">
-        <div style="width: 20%;font-size: 25px;font-weight: bold">Description:</div>
+        <div style="width: 20%;font-size: 25px;font-weight: bold">Requirement:</div>
         <div style="width: 80%;text-align: left">
           <div v-if="ReqFail"  class="failText">
-            Please input your description
+            Please input your requirement
           </div>
           <el-input
               type="textarea"
@@ -73,12 +73,6 @@ export default {
       ReqFail: false,
       totalAnswer:0,
     }
-  },
-  created() {
-    this.lang = this.$route.query.lang;
-    const prompt = this.$route.query.prompt;
-    const resultData = this.$route.query.resultData;
-    this.ReqText = `User requirement: ${prompt}\nGPT answer: ${resultData}`;
   },
   mounted() {
     this.getTask();
