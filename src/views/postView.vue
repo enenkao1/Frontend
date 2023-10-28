@@ -178,7 +178,7 @@ export default {
       if(localStorage.getItem('id')==this.LandlordId){
         this.isLandlord = true;
       }
-      console.log(this.landLordPost);
+      //console.log(this.landLordPost);
       const Index = this.answerList.findIndex(item => item.accepted ===1);
       // if(Index > -1 && Index !==1){
       //   let Item = this.answerList[Index];

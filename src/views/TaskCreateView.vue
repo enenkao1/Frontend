@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <div class="content">
-      <div class="input-group" style="display: flex;flex-direction: row;align-items: center;margin-top: 10%">
+      <el-button size="small" style="float: left;margin-left: 30px;width: 10%" @click = "goBack">back</el-button>
+      <div class="input-group" style="display: flex;flex-direction: row;align-items: center;margin-top: 5%">
         <div style="width: 20%;font-size: 25px;font-weight: bold">Language:</div>
         <div style="width: 80%;text-align: left">
           <div v-if="langFail" class="failText">
@@ -111,9 +112,12 @@ export default {
           await this.addAnswer();
         }else{
           this.$message.error("Task create fail ");
+          console.log(response.data);
+          console.log('PostFail')
         }
       }else{
         this.$message.error("Task create fail ");
+        console.log('PostFail')
       }
     },
     async addAnswer() {
@@ -132,12 +136,15 @@ export default {
         this.goForum();
       }else{
         this.$message.error("Task create fail ");
+        console.log(response.data);
+        console.log('AddanswerFail')
       }
     },
     getTask(){
       // eslint-disable-next-line no-unused-vars
       axios.get("http://localhost:9090/task/auth/ask/alllist").then((response) => {
             this.getData = response.data.data;
+            console.log(this.getData.length);
             //console.log(this.getData);
           }
       );
@@ -148,8 +155,12 @@ export default {
     getTotalAnswerAmount(){
       axios.get("http://localhost:9090/answer/auth/count").then((response) => {
             this.totalAnswer = response.data.data;
+            console.log(this.totalAnswer);
           }
       );
+    },
+    goBack(){
+      this.$router.push("/forum");
     },
   }
 }

@@ -4,8 +4,28 @@
   <app-header></app-header>
   <h1 style="text-align: center;margin-top: 30px">Welcome to smart coder community</h1>
   <div class="buttonBox" >
-    <div style="text-align: left; width: 100%;">
+    <div style="width: 100%;">
       <el-button type="primary" round class="postButton" @click="goCreateTask()">Create Task</el-button>
+    </div>
+    <div style="display: flex;flex-direction: column;width: 200px">
+      <div>
+      <el-switch
+          v-model="selfFocus"
+          style="margin-top: 50px"
+          inactive-text="Only your task"
+          @change = "selfChange"
+      >
+      </el-switch>
+      </div>
+      <div>
+        <el-switch
+            v-model="unsolvedFocus"
+            style="margin-top: 30px"
+            inactive-text="Only unsolved"
+            @change = "statusChange"
+        >
+        </el-switch>
+      </div>
     </div>
   </div>
   <div class="tableUp">
@@ -81,7 +101,8 @@ export default {
       itemsPerPage: 16,
       tableData: [{ }],
       getData:[],
-
+      selfFocus:false,
+      unsolvedFocus:false,
     }
   },
   computed:{
@@ -101,18 +122,6 @@ export default {
       localStorage.setItem("lastOpen",row.taskId);
       this.$router.push("/post");
     },
-    addPost(){
-      this.new = this.new + 1 ;
-      let postName = 'Welcome to here ' + this.new;
-      this.tableData.push({
-        id:this.tableData.length+1,
-        date: '2023-10-23',
-        name: postName,
-        status: 'Solved',
-        author: 'Admin',
-        reply:'user'
-      })
-    },
     handlePageChange(page) {
       this.currentPage = page;
     },
@@ -124,21 +133,6 @@ export default {
           //console.log(this.getData);
         }
       );
-    },
-    async addTask() {
-      this.new = this.new + 1;
-      let postName = 'Welcome to here ' + this.new;
-      let newTask = {
-        taskId: this.getData.length + 1,
-        submittedTime: '2023-10-23',
-        content: postName,
-        finished: 0,
-        userId: 1,
-        codeType: 'java'
-      }
-      const response = await axios.post('http://localhost:9090/task/auth/add', newTask);
-      console.log('Data saved', response.data.message);
-      this.getTask();
     },
     goCreateTask(){
       this.$router.push("/taskcreate");
@@ -152,7 +146,60 @@ export default {
         );
       })
     },
-
+    selfChange(value){
+        if(value==true){
+          if(this.unsolvedFocus==true){
+            axios.get("http://localhost:9090/task/auth/my/ask/list",{params:{userId : localStorage.getItem('id')}}).then((response) => {
+                  this.getData = response.data.data;
+                  this.getUser();
+                }
+            );
+          }else{
+            axios.get("http://localhost:9090/task/auth/my/list",{params:{userId : localStorage.getItem('id')}}).then((response) => {
+                  this.getData = response.data.data;
+                  this.getUser();
+                }
+            );
+          }
+        }else{
+          if(this.unsolvedFocus==true){
+            axios.get("http://localhost:9090/task/auth/ask/unfinishedlist",{params:{userId : localStorage.getItem('id')}}).then((response) => {
+                  this.getData = response.data.data;
+                  this.getUser();
+                }
+            );
+          }else{
+            this.getTask();
+          }
+        }
+    },
+    statusChange(value){
+      if(value==true){
+        if(this.selfFocus==true){
+          axios.get("http://localhost:9090/task/auth/my/ask/list",{params:{userId : localStorage.getItem('id')}}).then((response) => {
+                this.getData = response.data.data;
+                this.getUser();
+              }
+          );
+        }else{
+          axios.get("http://localhost:9090/task/auth/ask/unfinishedlist",{params:{userId : localStorage.getItem('id')}}).then((response) => {
+                this.getData = response.data.data;
+                this.getUser();
+              }
+          );
+        }
+      }else{
+        if(this.selfFocus==true){
+          axios.get("http://localhost:9090/task/auth/my/list",{params:{userId : localStorage.getItem('id')}}).then((response) => {
+                this.getData = response.data.data;
+                this.getUser();
+              }
+          );
+        }else{
+          this.getTask();
+        }
+      }
+    }
   }
 }
 </script>
@@ -181,7 +228,7 @@ export default {
   border: 1px solid gray;
 }
 .buttonBox{
-  height: 5vh;
+  height: 10vh;
   background-color: white;
   width: 1300px;
   margin: auto;
