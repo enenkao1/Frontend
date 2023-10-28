@@ -26,7 +26,7 @@
     </div>
     <div class="blue-bar2"></div>
     <div>
-      <loading-with-countdown :duration="60" :is-visible="isLoading" />
+      <loading-with-countdown :is-visible="isLoading" />
     </div>
   </div>
 </template>
@@ -58,11 +58,8 @@ export default {
           .then(res => {
             console.log(res);
             if (res.code === 200) {
-              this.loginRole = res.data.roles
-              this.userInfo =res.data.userInfo
               localStorage.setItem('id', res.data.id);
               localStorage.setItem('username', res.data.username);
-              console.log( "user info"+res.data.userInfo)
               this.goUser();
             } else {
               this.$message.error("Your username or password is wrong, please try again.");

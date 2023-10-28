@@ -1,17 +1,13 @@
 <template>
   <div v-if="isVisible" class="loading-overlay">
     <div class="loading-spinner"></div>
-    <div class="countdown-text">Please wait for {{ countdown }} seconds...</div>
+    <div class="countdown-text">Please wait for the result</div>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    duration: {
-      type: Number,
-      required: true,
-    },
     isVisible: {
       type: Boolean,
       default: false,
@@ -19,7 +15,6 @@ export default {
   },
   data() {
     return {
-      countdown: this.duration,
       intervalId: null,
     };
   },
@@ -34,7 +29,6 @@ export default {
   },
   methods: {
     startCountdown() {
-      this.countdown = this.duration;
       this.intervalId = setInterval(() => {
         this.countdown -= 1;
         if (this.countdown <= 0) {
@@ -43,7 +37,6 @@ export default {
       }, 1000);
     },
     resetCountdown() {
-      this.countdown = this.duration;
       if (this.intervalId) {
         clearInterval(this.intervalId);
       }

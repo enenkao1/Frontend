@@ -1,13 +1,10 @@
 <template>
   <el-header class="header" height = 100px;>
     <img src="@/assets/logo.png" alt="Logo" class="logo">
-<<<<<<< HEAD
-=======
     <div class="navigation-menu">
       <router-link to="/forum" class="menu-item">Forum</router-link>
       <router-link to="/codeGeneration" class="menu-item">Home</router-link>
     </div>
->>>>>>> f0443a28d503eb37cdc3dbac076c0cfc20ed208c
     <div class="user-info">
       <span class="username">{{ username }}</span>
       <el-dropdown trigger="click">
