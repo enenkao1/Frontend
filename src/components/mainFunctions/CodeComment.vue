@@ -22,7 +22,7 @@
       </el-main>
     </el-container>
     <div>
-      <loading-with-countdown :duration="60" :is-visible="isLoading" />
+      <loading-with-countdown :is-visible="isLoading" />
     </div>
   </div>
 </template>

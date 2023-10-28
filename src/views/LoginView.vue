@@ -60,6 +60,7 @@ export default {
             if (res.code === 200) {
               localStorage.setItem('id', res.data.id);
               localStorage.setItem('username', res.data.username);
+              localStorage.setItem('userType', res.data.userType);
               this.goUser();
             } else {
               this.$message.error("Your username or password is wrong, please try again.");
@@ -75,8 +76,16 @@ export default {
     goReg(){
       this.$router.push("/reg");
     },
-    goUser(){
-      this.$router.push("/CodeGeneration")
+    goUser() {
+      const userType = localStorage.getItem('userType');
+      if (userType === "COMMONUSER") {
+        this.$router.push("/CodeGeneration");
+      } else if (userType === 'PROGRAMMER') {
+        this.$router.push("/forum");
+      } else {
+        console.error("Unknown user type:", userType);
+        this.$message.error("Failed to navigate. Unknown user type.");
+      }
     }
   }
 }

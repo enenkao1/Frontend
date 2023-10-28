@@ -19,16 +19,23 @@
           <el-radio :label="9">Javascript</el-radio>
         </el-radio-group>
         <el-button type="primary" class="submit-button" @click="handleSubmit">Submit</el-button>
-        <result-display
-            :show-result="showResult"
-            :result-data="resultData"
-            @clear="handleClear"
-            class="result-display">
-        </result-display>
+        <div v-if="showResult" class="result-container">
+          <el-input
+              type="textarea"
+              :rows="10"
+              v-model="result"
+              placeholder="Result will be displayed here"
+              readonly>
+          </el-input>
+          <div class="button-group">
+            <el-button type="success" @click="handleAccept">Accept</el-button>
+            <el-button type="primary" @click="handlePost">Post</el-button>
+          </div>
+        </div>
       </el-main>
     </el-container>
     <div>
-      <loading-with-countdown :duration="60" :is-visible="isLoading" />
+      <loading-with-countdown :is-visible="isLoading" />
     </div>
   </div>
 </template>
@@ -36,24 +43,23 @@
 <script>
 import AppHeader from '@/components/public/Header.vue';
 import AppNavbar from '@/components/public/Navbar.vue';
-import ResultDisplay from '@/components/public/ResultDisplay.vue';
-import axios from "axios";
 import LoadingWithCountdown from "@/components/public/LoadingWithCountdown.vue";
+import axios from "axios";
 
 export default {
   components: {
     AppHeader,
     AppNavbar,
-    ResultDisplay,
-    LoadingWithCountdown
+    LoadingWithCountdown,
   },
   data() {
     return {
       textarea: '',
-      radio: 3,
+      radio: 0,
       showResult: false,
       resultData: '',
       isLoading: false,
+      result: this.resultData
     }
   },
   methods: {
@@ -89,12 +95,31 @@ export default {
         this.isLoading = false;
       }
     },
+    handleAccept() {
+      this.$emit('clear');
+    },
+    handlePost() {
+      console.log('Posted');
+      this.$router.push({
+        path: '/taskcreate',
+        query: {
+          lang: this.lang,
+          prompt: this.textarea,
+          resultData: this.resultData
+        }
+      })
+    },
     handleClear() {
       this.textarea = '';
-      this.radio = 3;
+      this.radio = 0;
       this.showResult = false;
       this.resultData = '';
     },
+  },
+  watch: {
+    resultData(newVal) {
+      this.result = newVal;
+    }
   }
 };
 </script>
@@ -130,11 +155,17 @@ export default {
   margin-top: 40px;
 }
 
-.result-display {
+.result-container {
   margin-top: 50px;
   margin-left: 50px;
   width: 80%;
   align-content: flex-start;
+}
+
+.button-group {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
 }
 
 </style>
