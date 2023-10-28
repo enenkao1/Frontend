@@ -1,7 +1,7 @@
 /* eslint-disable */
 <template>
 <div>
-  <img src="@/assets/logo.png" alt="" style = "width: 60%;margin-top: 50px">
+  <app-header></app-header>
   <h1 style="text-align: center;margin-top: 30px">Welcome to smart coder community</h1>
   <div class="buttonBox" >
     <div style="text-align: left; width: 100%;">
@@ -67,9 +67,13 @@
 
 <script>
 import axios from "axios";
+import AppHeader from "@/components/public/Header.vue";
 
 export default {
   name: "ForumView",
+  components: {
+    AppHeader,
+  },
   data() {
     return {
       new : 0,

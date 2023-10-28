@@ -1,7 +1,6 @@
 <template>
   <el-header class="header" height = 100px;>
     <img src="@/assets/logo.png" alt="Logo" class="logo">
-    <span>Welcome to the Smarter Coder</span>
     <div class="user-info">
       <span class="username">{{ username }}</span>
       <el-dropdown trigger="click">
@@ -32,7 +31,6 @@ export default {
     };
   },
   created() {
-    // 尝试从localStorage或sessionStorage获取用户ID
     const storedUsername = localStorage.getItem('username') || sessionStorage.getItem('username');
     if (storedUsername) {
       this.username = `Hi, ${storedUsername}`;
@@ -43,7 +41,7 @@ export default {
   methods: {
     goToDiscussionRoom() {
       // 实现跳转到讨论室的逻辑
-      this.$router.push('/discussion-room');
+      this.$router.push('/forum');
     },
     logout() {
       // 在登出时，你可能还想清除存储的用户信息
