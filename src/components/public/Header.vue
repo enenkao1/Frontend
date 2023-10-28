@@ -1,6 +1,13 @@
 <template>
   <el-header class="header" height = 100px;>
     <img src="@/assets/logo.png" alt="Logo" class="logo">
+<<<<<<< HEAD
+=======
+    <div class="navigation-menu">
+      <router-link to="/forum" class="menu-item">Forum</router-link>
+      <router-link to="/codeGeneration" class="menu-item">Home</router-link>
+    </div>
+>>>>>>> f0443a28d503eb37cdc3dbac076c0cfc20ed208c
     <div class="user-info">
       <span class="username">{{ username }}</span>
       <el-dropdown trigger="click">
@@ -8,7 +15,7 @@
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="goToDiscussionRoom">
+          <el-dropdown-item @click.native="goToForum">
             <i class="el-icon-chat-line-square"></i>
             Forum
           </el-dropdown-item>
@@ -39,12 +46,10 @@ export default {
     }
   },
   methods: {
-    goToDiscussionRoom() {
-      // 实现跳转到讨论室的逻辑
+    goToForum() {
       this.$router.push('/forum');
     },
     logout() {
-      // 在登出时，你可能还想清除存储的用户信息
       localStorage.removeItem('username');
       sessionStorage.removeItem('username');
       this.$router.push('/login');
@@ -61,7 +66,6 @@ export default {
   line-height: 60px;
   height: 100px;
   display: flex;
-  justify-content: space-between;
   padding: 0 20px;
   align-items: center;
   border-bottom: 1px solid palegoldenrod;
@@ -75,6 +79,7 @@ export default {
 .user-info {
   display: flex;
   align-items: center;
+  margin-left: auto;
 }
 
 .username {
@@ -91,5 +96,23 @@ export default {
 .el-dropdown-link {
   cursor: pointer;
   color: #409EFF;
+}
+
+.navigation-menu {
+  display: flex;
+  margin-left: 20px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.menu-item {
+  color: white;
+  margin-right: 20px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  text-decoration: underline;
 }
 </style>
