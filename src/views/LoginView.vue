@@ -26,7 +26,7 @@
     </div>
     <div class="blue-bar2"></div>
     <div>
-      <loading-with-countdown :duration="60" :is-visible="isLoading" />
+      <loading-with-countdown :is-visible="isLoading" />
     </div>
   </div>
 </template>
@@ -58,11 +58,9 @@ export default {
           .then(res => {
             console.log(res);
             if (res.code === 200) {
-              this.loginRole = res.data.roles
-              this.userInfo =res.data.userInfo
               localStorage.setItem('id', res.data.id);
               localStorage.setItem('username', res.data.username);
-              console.log( "user info"+res.data.userInfo)
+              localStorage.setItem('userType', res.data.userType);
               this.goUser();
             } else {
               this.$message.error("Your username or password is wrong, please try again.");
@@ -78,8 +76,16 @@ export default {
     goReg(){
       this.$router.push("/reg");
     },
-    goUser(){
-      this.$router.push("/CodeGeneration")
+    goUser() {
+      const userType = localStorage.getItem('userType');
+      if (userType === "COMMONUSER") {
+        this.$router.push("/CodeGeneration");
+      } else if (userType === 'PROGRAMMER') {
+        this.$router.push("/forum");
+      } else {
+        console.error("Unknown user type:", userType);
+        this.$message.error("Failed to navigate. Unknown user type.");
+      }
     }
   }
 }
