@@ -3,35 +3,50 @@
     <div class="content">
       <div class="input-group" style="display: flex;flex-direction: row;align-items: center;margin-top: 10%">
         <div style="width: 20%;font-size: 25px;font-weight: bold">Language:</div>
-        <el-input
-            type="textarea"
-            :rows="2"
-            placeholder="Your language type..."
-            v-model="lang"
-            style="border: 3px solid black;margin-bottom: 20px">
-        </el-input>
+        <div style="width: 80%;text-align: left">
+          <div v-if="langFail" class="failText">
+            Please input the type of your code
+          </div>
+          <el-input
+              type="textarea"
+              :rows="2"
+              placeholder="Your language type..."
+              v-model="lang"
+              style="border: 3px solid black;margin-bottom: 20px">
+          </el-input>
+        </div>
       </div>
 
       <div class="input-group" style="display: flex;flex-direction: row;align-items: center;margin-top: 10%">
         <div style="width: 20%;font-size: 25px;font-weight: bold">Title:</div>
-        <el-input
-            type="textarea"
-            :rows="2"
-            placeholder="Your title..."
-            v-model="title"
-            style="border: 3px solid black;margin-bottom: 20px">
-        </el-input>
+        <div style="width: 80%;text-align: left">
+          <div v-if="titleFail" class="failText">
+            Please input the title
+          </div>
+          <el-input
+              type="textarea"
+              :rows="2"
+              placeholder="Your language type..."
+              v-model="title"
+              style="border: 3px solid black;margin-bottom: 20px">
+          </el-input>
+        </div>
       </div>
 
       <div class="input-group" style="display: flex;flex-direction: row;align-items: center;margin-top: 10%">
         <div style="width: 20%;font-size: 25px;font-weight: bold">Requirement:</div>
-        <el-input
-            type="textarea"
-            :rows="10"
-            placeholder="Your requirement..."
-            v-model="ReqText"
-            style="border: 3px solid black;margin-bottom: 20px">
-        </el-input>
+        <div style="width: 80%;text-align: left">
+          <div v-if="ReqFail"  class="failText">
+            Please input your requirement
+          </div>
+          <el-input
+              type="textarea"
+              :rows="10"
+              placeholder="Your language type..."
+              v-model="ReqText"
+              style="border: 3px solid black;margin-bottom: 20px">
+          </el-input>
+        </div>
       </div>
       <div style="display: flex;justify-content: center;margin-top: 5%">
         <el-button type="primary" round class="postButton" @click="taskPost()">Task Post</el-button>
@@ -53,7 +68,9 @@ export default {
       title:'',
       ReqText:'',
       getData:[],
-
+      langFail: false,
+      titleFail: false,
+      ReqFail: false,
     }
   },
   mounted() {
@@ -61,24 +78,46 @@ export default {
   },
   methods: {
     async taskPost() {
-
-      // eslint-disable-next-line no-unused-vars
-      const Time = new Date().toLocaleDateString();
-      let newTask = {
-        taskId: this.getData.length + 1,
-        submittedTime: Time,
-        content: this.title,
-        finished: 0,
-        userId: 1,
-        codeType: this.lang,
+      if(this.lang.length==0){
+        this.langFail = true;
+      }else{
+        this.langFail = false;
       }
-      const response = await axios.post('http://localhost:9090/task/auth/add', newTask);
-      console.log('Data saved', response.data.message);
-      this.goForum();
+      if(this.title.length==0){
+        this.titleFail = true;
+      }else{
+        this.titleFail = false;
+      }
+      if(this.ReqText.length==0){
+        this.ReqFail = true;
+      }else{
+        this.ReqFail = false;
+      }
+      if(this.lang.length * this.title.length * this.ReqText.length != 0){
+        // eslint-disable-next-line no-unused-vars
+        const Time = new Date().toLocaleDateString();
+        let newTask = {
+          taskId: this.getData.length + 1,
+          submittedTime: Time,
+          content: this.title,
+          finished: 0,
+          userId: 1,
+          codeType: this.lang,
+        }
+        const response = await axios.post('http://localhost:9090/task/auth/add', newTask);
+        if(response.data.code == 200){
+          this.$message.success("Task create success! ");
+          this.goForum();
+        }else{
+          this.$message.error("Task create fail ");
+        }
+      }else{
+        this.$message.error("Task create fail ");
+      }
     },
     getTask(){
       // eslint-disable-next-line no-unused-vars
-      axios.get("http://localhost:9090/task/auth/ask/list").then((response) => {
+      axios.get("http://localhost:9090/task/auth/ask/alllist").then((response) => {
             this.getData = response.data.data;
             //console.log(this.getData);
           }
@@ -130,8 +169,11 @@ export default {
   width: 50%;
 }
 
-
 textarea {
   resize: vertical;
+}
+.failText{
+  color: red;
+  margin-bottom: 20px;
 }
 </style>

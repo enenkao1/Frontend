@@ -98,6 +98,7 @@ export default {
   methods:{
     // eslint-disable-next-line no-unused-vars
     goTask(row){
+      localStorage.setItem("lastOpen",row.taskId);
       this.$router.push("/post");
     },
     addPost(){
@@ -117,7 +118,7 @@ export default {
     },
     getTask(){
       // eslint-disable-next-line no-unused-vars
-      axios.get("http://localhost:9090/task/auth/ask/list").then((response) => {
+      axios.get("http://localhost:9090/task/auth/ask/alllist").then((response) => {
           this.getData = response.data.data;
           //console.log(this.getData);
         }

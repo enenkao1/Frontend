@@ -101,6 +101,7 @@ export default {
   },
   mounted() {
     this.data.unshift(this.landLordPost);
+    console.log(localStorage.getItem("lastOpen"));
   },
   methods:{
     goBack(){
