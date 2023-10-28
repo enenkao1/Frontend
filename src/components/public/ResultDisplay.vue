@@ -36,8 +36,8 @@ export default {
       this.$emit('clear');
     },
     handlePost() {
-      // Add logic for posting
       console.log('Posted');
+      this.$router.push('/taskcreate');
     }
   },
   watch: {

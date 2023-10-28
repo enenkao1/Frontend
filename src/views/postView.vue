@@ -1,11 +1,7 @@
 /* eslint-disable */
 <template >
 <div class="mainBox">
-  <div>
-    <el-container class="UpContainer">
-      <img src="@/assets/logo.png" alt="" style = "width:1000px">
-    </el-container>
-  </div>
+  <app-header></app-header>
   <div class="insideBox">
     <div style="flex: 1;margin-bottom: 20px">
       <div style="height: 5vh;display: flex;align-items: center">
@@ -70,8 +66,13 @@
 </template>
 
 <script>
+import AppHeader from "@/components/public/Header.vue";
+
 export default {
   name: "postView",
+  components: {
+    AppHeader,
+  },
   data() {
     return {
       landLordPost:{ id: 1, date: "2023-10-25", userId: "User1", content: "This is a sample post!",adopt:false, },

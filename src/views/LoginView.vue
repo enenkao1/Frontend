@@ -53,14 +53,13 @@ export default {
   methods:{
     async login() {
       this.isLoading = true;
-      await this.$axios.post(this.$httpurl + '/users/login', this.loginForm)
+      await this.$axios.post(this.$httpurl + '/users/auth/login', this.loginForm)
           .then(res => res.data)
           .then(res => {
             console.log(res);
             if (res.code === 200) {
               this.loginRole = res.data.roles
               this.userInfo =res.data.userInfo
-              // 保存用户ID，username到localStorage
               localStorage.setItem('id', res.data.id);
               localStorage.setItem('username', res.data.username);
               console.log( "user info"+res.data.userInfo)
