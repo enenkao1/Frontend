@@ -1,13 +1,13 @@
 /* eslint-disable */
 <template>
-<div>
+<div style="background-color:#333333; min-height: 100vh;">
   <app-header></app-header>
-  <h1 style="text-align: center;margin-top: 30px">Welcome to smart coder community</h1>
+  <h1 style="text-align: center;margin-top: 30px; background-color: #333; color:white;">Welcome to smart coder community</h1>
   <div class="buttonBox" >
-    <div style="width: 100%;">
+    <div style="width: 100%; background-color: #333;">
       <el-button type="primary" round class="postButton" @click="goCreateTask()">Create Task</el-button>
     </div>
-    <div style="display: flex;flex-direction: column;width: 200px">
+    <div style="display: flex;flex-direction: column;width: 200px; background-color: #333;">
       <div>
       <el-switch
           v-model="selfFocus"

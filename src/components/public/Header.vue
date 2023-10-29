@@ -12,10 +12,6 @@
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="goToForum">
-            <i class="el-icon-chat-line-square"></i>
-            Forum
-          </el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
             <i class="el-icon-switch-button"></i>
             Sign out
