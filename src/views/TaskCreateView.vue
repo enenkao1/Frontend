@@ -75,6 +75,12 @@ export default {
       totalAnswer:0,
     }
   },
+  created() {
+    this.lang = this.$route.query.lang;
+    const prompt = this.$route.query.prompt;
+    const resultData = this.$route.query.resultData;
+    this.ReqText = `User requirement: ${prompt}\nGPT answer: ${resultData}`;
+  },
   mounted() {
     this.getTask();
     this.getTotalAnswerAmount();
@@ -167,11 +173,12 @@ export default {
 <style scoped>
 .container {
   display: flex;
+  min-height: 100vh;
   justify-content: center;
   align-items: center;
   /*min-height: 150vh;*/
   padding: 20px;
-
+  background-color: #333;
 }
 
 .content {

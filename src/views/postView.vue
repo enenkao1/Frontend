@@ -212,7 +212,7 @@ export default {
 .mainBox{
   min-height: 100vh;
   height:auto;
-  background-color: gray;
+  background-color: #333333;
   overflow: auto;
 }
 .UpContainer {
@@ -238,7 +238,7 @@ export default {
 
 }
 .postAside{
-  background-color: cadetblue;
+  background-color: gray;
   display:flex;
   flex-direction:column;
   align-items: center;
@@ -246,7 +246,7 @@ export default {
   height: 240px;
 }
 .elAside{
-  background-color: cadetblue;
+  background-color: gray;
   display:flex;
   flex-direction:column;
   align-items: center;

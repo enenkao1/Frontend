@@ -9,6 +9,9 @@
       <div v-if="loginFail" class="failText">
         Username or password is not correct.
       </div>
+      <div class="logo-container">
+        <img src="@/assets/logo.png" alt="Logo">
+      </div>
       <el-form :label-position="labelPosition" label-width="130px" :model="loginForm">
         <el-form-item label="Username" style="width:500px">
           <el-input v-model="loginForm.username" placeholder="..."></el-input>
@@ -99,6 +102,14 @@ export default {
   justify-content:center;
   overflow:hidden;
 }
+
+.logo-container {
+  display: flex;
+  height: 100px;
+  margin-left: 100px;
+  margin-bottom: 30px;
+  justify-content: space-between;
+}
 .failText{
   color: red;
   text-align: left;
@@ -109,7 +120,7 @@ export default {
   position: fixed;
   width: 100%;
   height: 8vh;
-  background-color: blue;
+  background-color: #333333;
   opacity: 0.5;
   box-shadow: 0 8px 15px rgba(0, 0, 255, 0.6);
   z-index: 1000;
@@ -117,7 +128,7 @@ export default {
 .blue-bar2 {
   width: 100%;
   height: 10vh;
-  background-color: blue;
+  background-color: #333333;
   opacity: 0.5;
   box-shadow: 0 8px 15px rgba(0, 0, 255, 0.6);
   z-index: 1000;

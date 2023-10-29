@@ -1,17 +1,17 @@
 /* eslint-disable */
 <template>
-<div>
+<div style="background-color:#333333; min-height: 100vh;">
   <app-header></app-header>
-  <h1 style="text-align: center;margin-top: 30px">Welcome to smart coder community</h1>
+  <h1 style="text-align: center;margin-top: 30px; background-color: #333; color:white;">Welcome to smart coder community</h1>
   <div class="buttonBox" >
-    <div style="width: 100%;">
-      <el-button type="primary" round class="postButton" @click="goCreateTask()">Create Task</el-button>
+    <div style="width: 100%; background-color: #333;">
     </div>
-    <div style="display: flex;flex-direction: column;width: 200px">
+    <div style="display: flex;flex-direction: column;width: 200px; background-color: #333;">
       <div>
       <el-switch
           v-model="selfFocus"
-          style="margin-top: 50px"
+          class="switch-active"
+          style="margin-top: 20px"
           inactive-text="Only your task"
           @change = "selfChange"
       >
@@ -20,7 +20,8 @@
       <div>
         <el-switch
             v-model="unsolvedFocus"
-            style="margin-top: 30px"
+            class="switch-active"
+            style="margin-top: 10px"
             inactive-text="Only unsolved"
             @change = "statusChange"
         >
@@ -44,7 +45,7 @@
       </el-table-column>
       <el-table-column
           prop="content"
-          label=" "
+          label="Title"
           width="500"
         >
       </el-table-column>
@@ -133,9 +134,6 @@ export default {
           //console.log(this.getData);
         }
       );
-    },
-    goCreateTask(){
-      this.$router.push("/taskcreate");
     },
     // eslint-disable-next-line no-unused-vars
     getUser(){
@@ -239,4 +237,9 @@ export default {
   width: 100%;
   text-align: center;
 }
+
+::v-deep .el-switch__label {
+  color: #409EFF !important;
+}
+
 </style>

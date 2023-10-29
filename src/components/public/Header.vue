@@ -39,9 +39,6 @@ export default {
     }
   },
   methods: {
-    goToForum() {
-      this.$router.push('/forum');
-    },
     logout() {
       localStorage.removeItem('username');
       sessionStorage.removeItem('username');
