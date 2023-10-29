@@ -43,7 +43,7 @@
       <el-container class="replyInput">
         <el-aside  width="250px" class="elAside">
           <img src="@/assets/User.jpg" alt="Image" style = "width: 50%;border: 2px solid white;margin-top: 20px;">
-          <div style="" class="username">Your Username</div>
+          <div style="" class="username">{{ username }}</div>
         </el-aside>
         <el-main  style="background-color: white;border: 2px solid #000000">
           <div class="replyInput">
@@ -80,7 +80,7 @@ export default {
       textarea: '',
       currentPage : 1,
       itemsPerPage: 5,
-      userId:'Me',
+      username:'Me',
       total: 0,
       isLandlord:false,
       LandlordId: -1,
@@ -90,7 +90,6 @@ export default {
       taskDetail:[],
       totalAnswer:-1,
       test:true,
-
     }
   },
   computed:{
@@ -104,10 +103,10 @@ export default {
     this.taskID = localStorage.getItem("lastOpen");
     this.getDetail();
     this.getTotalAnswerAmount();
-    this.getDetail();
+
   },
   mounted() {
-
+    this.username = localStorage.getItem("username");
   },
   methods:{
     goBack(){
@@ -119,12 +118,6 @@ export default {
     goToLastPage() {
       const finalPage = Math.ceil(this.answerList.length / this.itemsPerPage);
       this.currentPage = finalPage;
-    },
-    deleteTest(){
-      console.log(this.answerList.length);
-      this.answerList.splice(1,1);
-      this.test = false;
-
     },
 
     async newAnswer() {
@@ -152,41 +145,20 @@ export default {
       let adoptid= 0 ;
       /* eslint-disable */
       for (const row of this.answerList) {
-        if(row.answerId == id){
-          // console.log("checkit" + (row.answerId + 1));
-          // let pack1 = {
-          //   answerId: row.answerId,
-          // };
-          // const res = await axios.post('http://localhost:9090/answer/auth/updateAccepted',pack1);
-          // if(res.data.code == 200){
-          //    console.log(1)
-          //    let pack2 = {taskId: this.taskID};
-          //    const res2 = await axios.post('http://localhost:9090/task/auth/task/updateFinishedStatus',pack2);
-          //    if(res2.data.code == 200){
-          //      this.$message.success("Adopt success! ");
-          //      this.noAdoption = false;
-          //    }else{
-          //      console.log(res2);
-          //      this.$message.error("Task update error! ");
-          //    }
-          // }else{
-          //    console.log(res);
-          //    this.$message.error("Answer update error! ");
-          // }
+        if(row.floor == id){
           adoptid = row.answerId;
-
         }
       }
-      console.log("checkit" + adoptid);
-      let pack1 = {
-        status: 1,
-        answerId: adoptid,
-        taskId: this.taskID,
-      };
-      const res = await axios.post("http://localhost:9090/answer/auth/adopt",pack1);
+      console.log(adoptid);
+      const res = await axios.get("http://localhost:9090/answer/auth/adopt", {params:{
+          status: 1,
+          answerId: adoptid,
+          taskId: this.taskID,
+        }});
       if(res.data.code == 200){
              this.$message.success("Adopt success! ");
              this.noAdoption = false;
+             window.location.reload();
       }else{
         console.log(res);
         this.$message.error("Answer update error! ");
@@ -197,7 +169,7 @@ export default {
           taskId : this.taskID,
       }}).then((res)=>{
           this.taskDetail = res.data.data.task;
-          if(this.taskDetail.accepted==1){
+          if(this.taskDetail.finished==1){
             this.noAdoption = false;
           }
           this.answerList = res.data.data.answerList;
@@ -214,13 +186,7 @@ export default {
       }
       //console.log(this.landLordPost);
       const Index = this.answerList.findIndex(item => item.accepted ===1);
-      // if(Index > -1 && Index !==1){
-      //   let Item = this.answerList[Index];
-      //   this.answerList.splice(Index,1);
-      //   console.log(this.answerList);
-      //   // this.answerList.splice(1,0,1);
-      //   // console.log(this.answerList);
-      // }
+
     },
     getUser(){
       this.answerList.forEach((row,index) => {

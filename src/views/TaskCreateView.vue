@@ -100,7 +100,6 @@ export default {
         // eslint-disable-next-line no-unused-vars
         const Time = new Date().toLocaleDateString();
         let newTask = {
-          taskId: this.getData.length + 1,
           submittedTime: Time,
           content: this.title,
           finished: 0,
@@ -128,7 +127,6 @@ export default {
         content: this.ReqText,
         userId: localStorage.getItem('id'),
         floor: 1,
-        answerId: this.totalAnswer + 1,
       };
       const response = await axios.post('http://localhost:9090/answer/auth/add', landlordPost);
       if(response.data.code == 200){
