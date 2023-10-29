@@ -1,5 +1,11 @@
 # demo
 
+Please make sure you install the npm in your computer. You can check the npm with command 
+```
+npm -v
+```
+If the npm is not installed. Please install the npm first by install Node.js.
+
 ## Project setup
 ```
 npm install
