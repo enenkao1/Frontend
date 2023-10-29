@@ -149,13 +149,31 @@ export default {
         this.$message.error("Reply fail ");
       }
     },
-    adoptClick(id){
+    async adoptClick(id){
+
       /* eslint-disable */
-      this.answerList.forEach((row,index)=>{
-        if(row.floor == id){
-          console.log("checkit" + row.floor);
+      for (const row of this.answerList) {
+        if(row.answerId == id){
+          console.log("checkit" + row.answerId);
+          let pack1 = {answerId: row.answerId};
+           const res = await axios.post('http://localhost:9090/answer/auth/updateAccepted',pack1);
+           if(res.data.code == 200){
+             console.log(1)
+             let pack2 = {taskId: this.taskID};
+             const res2 = await axios.post('http://localhost:9090/task/auth/task/updateFinishedStatus',pack2);
+             if(res2.data.code == 200){
+               this.$message.success("Adopt success! ");
+               this.noAdoption = false;
+             }else{
+               console.log(res2);
+               this.$message.error("Task update error! ");
+             }
+           }else{
+             console.log(res);
+             this.$message.error("Answer update error! ");
+           }
         }
-      });
+      }
       this.noAdoption=false;
     },
     getDetail(){
