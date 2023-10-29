@@ -1,59 +1,61 @@
 <template>
-<div class="container">
-  <div class="content">
-    <el-button size="small" style="float: left;margin-left: 30px;width: 10%" @click = "goBack">back</el-button>
-    <div class="input-group" style="display: flex;flex-direction: row;align-items: center;margin-top: 5%">
-      <div style="width: 20%;font-size: 25px;font-weight: bold">Language:</div>
-      <div style="width: 80%;text-align: left">
-        <div v-if="langFail" class="failText">
-          Please input the type of your code
+  <div class="container">
+    <div class="content">
+      <el-button size="small" style="float: left;margin-left: 30px;width: 10%" @click = "goBack">back</el-button>
+      <div class="input-group" style="display: flex;flex-direction: row;align-items: center;margin-top: 5%">
+        <div style="width: 20%;font-size: 25px;font-weight: bold">Language:</div>
+        <div style="width: 80%;text-align: left">
+          <div v-if="langFail" class="failText">
+            Please input the type of your code
+          </div>
+          <el-input
+              type="textarea"
+              :rows="2"
+              placeholder="Your language type..."
+              v-model="lang"
+              style="border: 3px solid black;margin-bottom: 20px">
+          </el-input>
         </div>
-        <el-input
-            type="textarea"
-            :rows="2"
-            placeholder="Your language type..."
-            v-model="lang"
-            style="border: 3px solid black;margin-bottom: 20px">
-        </el-input>
       </div>
-    </div>
 
-    <div class="input-group" style="display: flex;flex-direction: row;align-items: center;margin-top: 10%">
-      <div style="width: 20%;font-size: 25px;font-weight: bold">Title:</div>
-      <div style="width: 80%;text-align: left">
-        <div v-if="titleFail" class="failText">
-          Please input the title
+      <div class="input-group" style="display: flex;flex-direction: row;align-items: center;margin-top: 10%">
+        <div style="width: 20%;font-size: 25px;font-weight: bold">Title:</div>
+        <div style="width: 80%;text-align: left">
+          <div v-if="titleFail" class="failText">
+            Please input the title
+          </div>
+          <el-input
+              type="textarea"
+              :rows="2"
+              placeholder="Your language type..."
+              v-model="title"
+              style="border: 3px solid black;margin-bottom: 20px">
+          </el-input>
         </div>
-        <el-input
-            type="textarea"
-            :rows="2"
-            placeholder="Your language type..."
-            v-model="title"
-            style="border: 3px solid black;margin-bottom: 20px">
-        </el-input>
       </div>
-    </div>
 
-    <div class="input-group" style="display: flex;flex-direction: row;align-items: center;margin-top: 10%">
-      <div style="width: 20%;font-size: 25px;font-weight: bold">Description:</div>
-      <div style="width: 80%;text-align: left">
-        <div v-if="ReqFail"  class="failText">
-          Please input your description
+      <div class="input-group" style="display: flex;flex-direction: row;align-items: center;margin-top: 10%">
+        <div style="width: 20%;font-size: 25px;font-weight: bold">Requirement:</div>
+        <div style="width: 80%;text-align: left">
+          <div v-if="ReqFail"  class="failText">
+            Please input your requirement
+          </div>
+          <el-input
+              type="textarea"
+              :rows="10"
+              placeholder="Your language type..."
+              v-model="ReqText"
+              style="border: 3px solid black;margin-bottom: 20px">
+          </el-input>
         </div>
-        <el-input
-            type="textarea"
-            :rows="10"
-            placeholder="Your language type..."
-            v-model="ReqText"
-            style="border: 3px solid black;margin-bottom: 20px">
-        </el-input>
       </div>
-    </div>
-    <div style="display: flex;justify-content: center;margin-top: 5%">
-      <el-button type="primary" round class="postButton" @click="taskPost()">Task Post</el-button>
+      <div style="display: flex;justify-content: center;margin-top: 5%">
+        <el-button type="primary" round class="postButton" @click="taskPost()">Task Post</el-button>
+      </div>
+
+
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -72,12 +74,6 @@ export default {
       ReqFail: false,
       totalAnswer:0,
     }
-  },
-  created() {
-    this.lang = this.$route.query.lang;
-    const prompt = this.$route.query.prompt;
-    const resultData = this.$route.query.resultData;
-    this.ReqText = `User requirement: ${prompt}\nGPT answer: ${resultData}`;
   },
   mounted() {
     this.getTask();
@@ -173,10 +169,8 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  min-height: 100vh;
   justify-content: center;
   align-items: center;
-  background-color: #333;
   /*min-height: 150vh;*/
   padding: 20px;
 

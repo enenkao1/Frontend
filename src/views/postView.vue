@@ -132,7 +132,6 @@ export default {
       const Time = new Date().toLocaleDateString();
       let newData = {
         accepted: 0,
-        answerId: 0,
         userId: localStorage.getItem('id'),
         content: Text,
         taskId: this.taskID,
@@ -150,31 +149,48 @@ export default {
       }
     },
     async adoptClick(id){
-
+      let adoptid= 0 ;
       /* eslint-disable */
       for (const row of this.answerList) {
         if(row.answerId == id){
-          console.log("checkit" + row.answerId);
-          let pack1 = {answerId: row.answerId};
-           const res = await axios.post('http://localhost:9090/answer/auth/updateAccepted',pack1);
-           if(res.data.code == 200){
-             console.log(1)
-             let pack2 = {taskId: this.taskID};
-             const res2 = await axios.post('http://localhost:9090/task/auth/task/updateFinishedStatus',pack2);
-             if(res2.data.code == 200){
-               this.$message.success("Adopt success! ");
-               this.noAdoption = false;
-             }else{
-               console.log(res2);
-               this.$message.error("Task update error! ");
-             }
-           }else{
-             console.log(res);
-             this.$message.error("Answer update error! ");
-           }
+          // console.log("checkit" + (row.answerId + 1));
+          // let pack1 = {
+          //   answerId: row.answerId,
+          // };
+          // const res = await axios.post('http://localhost:9090/answer/auth/updateAccepted',pack1);
+          // if(res.data.code == 200){
+          //    console.log(1)
+          //    let pack2 = {taskId: this.taskID};
+          //    const res2 = await axios.post('http://localhost:9090/task/auth/task/updateFinishedStatus',pack2);
+          //    if(res2.data.code == 200){
+          //      this.$message.success("Adopt success! ");
+          //      this.noAdoption = false;
+          //    }else{
+          //      console.log(res2);
+          //      this.$message.error("Task update error! ");
+          //    }
+          // }else{
+          //    console.log(res);
+          //    this.$message.error("Answer update error! ");
+          // }
+          adoptid = row.answerId;
+
         }
       }
-      this.noAdoption=false;
+      console.log("checkit" + adoptid);
+      let pack1 = {
+        status: 1,
+        answerId: adoptid,
+        taskId: this.taskID,
+      };
+      const res = await axios.post("http://localhost:9090/answer/auth/adopt",pack1);
+      if(res.data.code == 200){
+             this.$message.success("Adopt success! ");
+             this.noAdoption = false;
+      }else{
+        console.log(res);
+        this.$message.error("Answer update error! ");
+      }
     },
     getDetail(){
       axios.get("http://localhost:9090/task/auth/task/detail",{params:{
@@ -230,7 +246,7 @@ export default {
 .mainBox{
   min-height: 100vh;
   height:auto;
-  background-color: #333333;
+  background-color: gray;
   overflow: auto;
 }
 .UpContainer {
@@ -256,7 +272,7 @@ export default {
 
 }
 .postAside{
-  background-color: gray;
+  background-color: cadetblue;
   display:flex;
   flex-direction:column;
   align-items: center;
@@ -264,7 +280,7 @@ export default {
   height: 240px;
 }
 .elAside{
-  background-color: gray;
+  background-color: cadetblue;
   display:flex;
   flex-direction:column;
   align-items: center;
