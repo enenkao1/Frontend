@@ -9,7 +9,6 @@
     </el-input>
     <div class="button-group">
       <el-button type="success" @click="handleAccept">Accept</el-button>
-      <el-button type="primary" @click="handlePost">Post</el-button>
     </div>
   </div>
 </template>
